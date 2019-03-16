@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GiftShopServiceDAL.BindingModel
+namespace GiftShopModel
 {
-    public class СustomerBindingModel
+    /// <summary> 
+    /// Клиент магазина     
+    /// </summary>     
+    public class Customer
     {
         public int Id { get; set; }
         public string CustomerFIO { get; set; }

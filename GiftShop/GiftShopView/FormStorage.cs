@@ -11,30 +11,39 @@ using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
 using Unity;
-
 namespace GiftShopView
 {
-    public partial class FormCustomer : Form
+    public partial class FormStorage : Form
     {
-        [Dependency] public new IUnityContainer Container { get; set; }
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         public int Id { set { id = value; } }
-        private readonly ICustomerService service;
+
+        private readonly IStorageService service;
+
         private int? id;
-        public FormCustomer(ICustomerService service)
+
+        public FormStorage(IStorageService service)
         {
             InitializeComponent();
             this.service = service;
         }
-        private void FormCustomer_Load(object sender, EventArgs e)
+
+        private void FormStorage_Load(object sender, EventArgs e)
         {
             if (id.HasValue)
             {
                 try
                 {
-                    CustomerViewModel view = service.GetElement(id.Value);
-                    if (view != null)
+                    StorageViewModel view = service.GetElement(id.Value); if (view != null)
                     {
-                        textBoxFIO.Text = view.CustomerFIO;
+                        textBoxName.Text = view.StorageName;
+                        dataGridView.DataSource = view.StorageParts;
+                        dataGridView.Columns[0].Visible = false;
+                        dataGridView.Columns[1].Visible = false;
+                        dataGridView.Columns[2].Visible = false;
+                        dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     }
                 }
                 catch (Exception ex)
@@ -43,28 +52,29 @@ namespace GiftShopView
                 }
             }
         }
+
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxFIO.Text))
+            if (string.IsNullOrEmpty(textBoxName.Text))
             {
-                MessageBox.Show("Заполните ФИО", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Заполните название", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new CustomerBindingModel
+                    service.UpdElement(new StorageBindingModel
                     {
                         Id = id.Value,
-                        CustomerFIO = textBoxFIO.Text
+                        StorageName = textBoxName.Text
                     });
                 }
                 else
                 {
-                    service.AddElement(new CustomerBindingModel
+                    service.AddElement(new StorageBindingModel
                     {
-                        CustomerFIO = textBoxFIO.Text
+                        StorageName = textBoxName.Text
                     });
                 }
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -76,6 +86,7 @@ namespace GiftShopView
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;

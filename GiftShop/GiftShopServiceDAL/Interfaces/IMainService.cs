@@ -18,5 +18,7 @@ namespace GiftShopServiceDAL.Interfaces
         void FinishProcedure(ProcedureBindingModel model);
 
         void PayProcedure(ProcedureBindingModel model);
+
+        void PutPartOnStorage(StoragePartBindingModel model);
     }
 }

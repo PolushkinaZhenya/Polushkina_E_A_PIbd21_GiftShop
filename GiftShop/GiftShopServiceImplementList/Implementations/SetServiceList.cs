@@ -13,230 +13,138 @@ namespace GiftShopServiceImplementList.Implementations
     public class SetServiceList : ISetService
     {
         private DataListSingleton source;
-        public SetServiceList()
-        {
-            source = DataListSingleton.GetInstance();
-        }
+
+        public SetServiceList() { source = DataListSingleton.GetInstance(); }
+
         public List<SetViewModel> GetList()
         {
-            List<SetViewModel> result = new List<SetViewModel>();
-            for (int i = 0; i < source.Sets.Count; ++i)
-            {                 // требуется дополнительно получить список компонентов для изделия и их количество    
-                List<SetPartViewModel> setParts = new List<SetPartViewModel>();
-                for (int j = 0; j < source.SetParts.Count; ++j)
+            List<SetViewModel> result = source.Sets.Select(rec => new SetViewModel
+            {
+                Id = rec.Id,
+                SetName = rec.SetName,
+                Price = rec.Price,
+                SetParts = source.SetParts.Where(recPC => recPC.SetId == rec.Id).Select(recPC => new SetPartViewModel
                 {
-                    if (source.SetParts[j].SetId == source.Sets[i].Id)
-                    {
-                        string partName = string.Empty;
-                        for (int k = 0; k < source.Parts.Count; ++k)
-                        {
-                            if (source.SetParts[j].PartId == source.Parts[k].Id)
-                            {
-                                partName = source.Parts[k].PartName;
-                                break;
-                            }
-                        }
-                        setParts.Add(new SetPartViewModel
-                        {
-                            Id = source.SetParts[j].Id,
-                            SetId = source.SetParts[j].SetId,
-                            PartId = source.SetParts[j].PartId,
-                            PartName = partName,
-                            Count = source.SetParts[j].Count
-                        });
-                    }
-                }
-                result.Add(new SetViewModel
-                {
-                    Id = source.Sets[i].Id,
-                    SetName = source.Sets[i].SetName,
-                    Price = source.Sets[i].Price,
-                    SetParts = setParts
-                });
-            }
+                    Id = recPC.Id,
+                    SetId = recPC.SetId,
+                    PartId = recPC.PartId,
+                    PartName = source.Parts.FirstOrDefault(recC => recC.Id == recPC.PartId)?.PartName,
+                    Count = recPC.Count
+                }).ToList()
+            }).ToList();
+
             return result;
         }
 
         public SetViewModel GetElement(int id)
         {
-            for (int i = 0; i < source.Sets.Count; ++i)
-            {                 // требуется дополнительно получить список компонентов для изделия и их количество                 
-                List<SetPartViewModel> setParts = new List<SetPartViewModel>();
-                for (int j = 0; j < source.SetParts.Count; ++j)
+            Set element = source.Sets.FirstOrDefault(rec => rec.Id == id);
+            if (element != null)
+            {
+                return new SetViewModel
                 {
-                    if (source.SetParts[j].SetId == source.Sets[i].Id)
+                    Id = element.Id,
+                    SetName = element.SetName,
+                    Price = element.Price,
+                    SetParts = source.SetParts.Where(recPC => recPC.SetId == element.Id).Select(recPC => new SetPartViewModel
                     {
-                        string partName = string.Empty;
-                        for (int k = 0; k < source.Parts.Count; ++k)
-                        {
-                            if (source.SetParts[j].PartId == source.Parts[k].Id)
-                            {
-                                partName = source.Parts[k].PartName;
-                                break;
-                            }
-                        }
-                        setParts.Add(new SetPartViewModel
-                        {
-                            Id = source.SetParts[j].Id,
-                            SetId = source.SetParts[j].SetId,
-                            PartId = source.SetParts[j].PartId,
-                            PartName = partName,
-                            Count = source.SetParts[j].Count
-                        });
-                    }
-                }
-                if (source.Sets[i].Id == id)
-                {
-                    return new SetViewModel
-                    {
-                        Id = source.Sets[i].Id,
-                        SetName = source.Sets[i].SetName,
-                        Price = source.Sets[i].Price,
-                        SetParts = setParts
-                    };
-                }
+                        Id = recPC.Id,
+                        SetId = recPC.SetId,
+                        PartId = recPC.PartId,
+                        PartName = source.Parts.FirstOrDefault(recC => recC.Id == recPC.PartId)?.PartName,
+                        Count = recPC.Count
+                    }).ToList()
+                };
             }
-
             throw new Exception("Элемент не найден");
         }
 
         public void AddElement(SetBindingModel model)
         {
-            int maxId = 0; for (int i = 0; i < source.Sets.Count; ++i)
-            {
-                if (source.Sets[i].Id > maxId)
-                {
-                    maxId = source.Sets[i].Id;
-                }
-                if (source.Sets[i].SetName == model.SetName)
-                {
-                    throw new Exception("Уже есть изделие с таким названием");
-                }
-            }
-            source.Sets.Add(new Set
+            Set element = source.Sets.FirstOrDefault(rec => rec.SetName == model.SetName); if (element != null) { throw new Exception("Уже есть изделие с таким названием"); }
+            int maxId = source.Sets.Count > 0 ? source.Sets.Max(rec => rec.Id) : 0; source.Sets.Add(new Set
             {
                 Id = maxId + 1,
                 SetName = model.SetName,
                 Price = model.Price
-            }); // компоненты для изделия      
-            int maxPCId = 0; for (int i = 0; i < source.SetParts.Count; ++i)
-            {
-                if (source.SetParts[i].Id > maxPCId)
+            });             // компоненты для изделия        
+            int maxPCId = source.SetParts.Count > 0 ? source.SetParts.Max(rec => rec.Id) : 0;
+            // убираем дубли по компонентам     
+            var groupParts = model.SetParts.GroupBy(rec => rec.PartId)
+                .Select(rec => new
                 {
-                    maxPCId = source.SetParts[i].Id;
-                }
-            }             // убираем дубли по компонентам   
-            for (int i = 0; i < model.SetParts.Count; ++i)
-            {
-                for (int j = 1; j < model.SetParts.Count; ++j)
-                {
-                    if (model.SetParts[i].PartId == model.SetParts[j].PartId)
-                    {
-                        model.SetParts[i].Count += model.SetParts[j].Count;
-                        model.SetParts.RemoveAt(j--);
-                    }
-                }
-            }             // добавляем компоненты     
-            for (int i = 0; i < model.SetParts.Count; ++i)
+                    PartId = rec.Key,
+                    Count = rec.Sum(r => r.Count)
+                });
+            // добавляем компоненты 
+            foreach (var groupComponent in groupParts)
             {
                 source.SetParts.Add(new SetPart
                 {
                     Id = ++maxPCId,
                     SetId = maxId + 1,
-                    PartId = model.SetParts[i].PartId,
-                    Count = model.SetParts[i].Count
+                    PartId = groupComponent.PartId,
+                    Count = groupComponent.Count
                 });
             }
         }
 
         public void UpdElement(SetBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.Sets.Count; ++i)
-            {
-                if (source.Sets[i].Id == model.Id)
-                {
-                    index = i;
-                }
-                if (source.Sets[i].SetName == model.SetName && source.Sets[i].Id != model.Id)
-                {
-                    throw new Exception("Уже есть изделие с таким названием");
-                }
+            Set element = source.Sets.FirstOrDefault(rec => rec.SetName == model.SetName && rec.Id != model.Id);
+            if (element != null)
+            { throw new Exception("Уже есть изделие с таким названием");
             }
-            if (index == -1)
+            element = source.Sets.FirstOrDefault(rec => rec.Id == model.Id); if (element == null) { throw new Exception("Элемент не найден"); }
+            element.SetName = model.SetName; element.Price = model.Price;
+            int maxPCId = source.SetParts.Count > 0 ? source.SetParts.Max(rec => rec.Id) : 0;
+            // обновляем существуюущие компоненты  
+            var compIds = model.SetParts.Select(rec => rec.PartId).Distinct();
+            var updateComponents = source.SetParts.Where(rec => rec.SetId == model.Id && compIds.Contains(rec.SetId));
+            foreach (var updateComponent in updateComponents)
             {
-                throw new Exception("Элемент не найден");
+                updateComponent.Count = model.SetParts.FirstOrDefault(rec => rec.Id == updateComponent.Id).Count;
             }
-            source.Sets[index].SetName = model.SetName;
-            source.Sets[index].Price = model.Price;
-            int maxPCId = 0;
-            for (int i = 0; i < source.SetParts.Count; ++i)
-            {
-                if (source.SetParts[i].Id > maxPCId) { maxPCId = source.SetParts[i].Id; }
-            }             // обновляем существуюущие компоненты       
-            for (int i = 0; i < source.SetParts.Count; ++i)
-            {
-                if (source.SetParts[i].SetId == model.Id)
+            source.SetParts.RemoveAll(rec => rec.SetId == model.Id && !compIds.Contains(rec.PartId));
+            // новые записи 
+            var groupParts = model.SetParts.Where(rec => rec.Id == 0)
+                .GroupBy(rec => rec.PartId) 
+                .Select(rec => new
                 {
-                    bool flag = true; for (int j = 0; j < model.SetParts.Count; ++j)
-                    {                         // если встретили, то изменяем количество      
-                        if (source.SetParts[i].Id == model.SetParts[j].Id)
-                        {
-                            source.SetParts[i].Count = model.SetParts[j].Count;
-                            flag = false;
-                            break;
-                        }
-                    }                     // если не встретили, то удаляем              
-                    if (flag) {
-                        source.SetParts.RemoveAt(i--);
-                    }
-                }
-            }             // новые записи             
-            for (int i = 0; i < model.SetParts.Count; ++i)
+                    PartId = rec.Key,
+                    Count = rec.Sum(r => r.Count)
+                });
+            foreach (var groupPart in groupParts)
             {
-                if (model.SetParts[i].Id == 0)
-                {                     // ищем дубли         
-                    for (int j = 0; j < source.SetParts.Count; ++j)
+                SetPart elementPC = source.SetParts.FirstOrDefault(rec => rec.SetId == model.Id && rec.PartId == groupPart.PartId);
+                if (elementPC != null)
+                {
+                    elementPC.Count += groupPart.Count;
+                }
+                else
+                {
+                    source.SetParts.Add(new SetPart
                     {
-                        if (source.SetParts[j].SetId == model.Id && source.SetParts[j].PartId == model.SetParts[i].PartId)
-                        {
-                            source.SetParts[j].Count += model.SetParts[i].Count;
-                            model.SetParts[i].Id = source.SetParts[j].Id;
-                            break;
-                        }
-                    }                     // если не нашли дубли, то новая запись  
-                    if (model.SetParts[i].Id == 0)
-                    {
-                        source.SetParts.Add(new SetPart
-                        {
-                            Id = ++maxPCId,
-                            SetId = model.Id,
-                            PartId = model.SetParts[i].PartId,
-                            Count = model.SetParts[i].Count
-                        });
-                    }
+                        Id = ++maxPCId,
+                        SetId = model.Id,
+                        PartId = groupPart.PartId,
+                        Count = groupPart.Count
+                    });
                 }
-            }
+            } 
         }
 
         public void DelElement(int id)
-        {             // удаяем записи по компонентам при удалении изделия      
-            for (int i = 0; i < source.SetParts.Count; ++i)
-            {
-                if (source.SetParts[i].SetId == id)
-                {
-                    source.SetParts.RemoveAt(i--);
-                }
+        {
+            Set element = source.Sets.FirstOrDefault(rec => rec.Id == id); if (element != null)
+            {                 // удаяем записи по компонентам при удалении изделия  
+                source.SetParts.RemoveAll(rec => rec.SetId == id);
+                source.Sets.Remove(element);
             }
-            for (int i = 0; i < source.Sets.Count; ++i)
+            else
             {
-                if (source.Sets[i].Id == id)
-                {
-                    source.Sets.RemoveAt(i);
-                    return;
-                }
+                throw new Exception("Элемент не найден");
             }
-            throw new Exception("Элемент не найден");
         }
-    }
-}
+            }
+        }

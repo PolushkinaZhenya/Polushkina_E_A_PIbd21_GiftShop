@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace GiftShopModel
 {
-    /// <summary> 
-    /// Клиент магазина     
-    /// </summary>     
-    public class Сustomer
+    /// <summary>
+    /// /// Хранилиище компонентов в магазине 
+    /// /// </summary>
+    public class Storage
     {
         public int Id { get; set; }
-        public string CustomerFIO { get; set; }
+        public string StorageName { get; set; }
     }
 }

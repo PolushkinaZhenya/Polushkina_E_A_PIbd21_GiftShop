@@ -6,22 +6,26 @@ using System.Threading.Tasks;
 using GiftShopModel;
 namespace GiftShopServiceImplementList
 {
-    public class DataListSingleton
+    class DataListSingleton
     {
         private static DataListSingleton instance;
-        public List<Сustomer> Customers { get; set; }
+        public List<Customer> Customers { get; set; }
         public List<Part> Parts { get; set; }
         public List<Procedure> Procedures { get; set; }
         public List<Set> Sets { get; set; }
         public List<SetPart> SetParts { get; set; }
+        public List<Storage> Storages { get; set; }
+
+        public List<StoragePart> StorageParts { get; set; }
         private DataListSingleton()
         {
-            Customers = new List<Сustomer>();
+            Customers = new List<Customer>();
             Parts = new List<Part>();
             Procedures = new List<Procedure>();
             Sets = new List<Set>();
             SetParts = new List<SetPart>();
-
+            Storages = new List<Storage>();
+            StorageParts = new List<StoragePart>();
         }
         public static DataListSingleton GetInstance()
         {
