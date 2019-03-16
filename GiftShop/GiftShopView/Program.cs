@@ -30,6 +30,8 @@ namespace GiftShopView
             currentContainer.RegisterType<IPartService, PartServiceList>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ISetService, SetServiceList>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMainService, MainServiceList>(new HierarchicalLifetimeManager());
+
+            currentContainer.RegisterType<IStorageService, StorageServiceList>(new HierarchicalLifetimeManager());
             return currentContainer;
         }
     }

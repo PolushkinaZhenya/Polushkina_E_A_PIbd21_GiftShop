@@ -93,6 +93,12 @@
     <Compile Include="FormParts.Designer.cs">
       <DependentUpon>FormParts.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPutOnStorage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPutOnStorage.Designer.cs">
+      <DependentUpon>FormPutOnStorage.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +116,18 @@
     </Compile>
     <Compile Include="FormSets.Designer.cs">
       <DependentUpon>FormSets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormStorage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStorage.Designer.cs">
+      <DependentUpon>FormStorage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormStorages.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStorages.Designer.cs">
+      <DependentUpon>FormStorages.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -131,6 +149,9 @@
     <EmbeddedResource Include="FormParts.resx">
       <DependentUpon>FormParts.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormPutOnStorage.resx">
+      <DependentUpon>FormPutOnStorage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormSet.resx">
       <DependentUpon>FormSet.cs</DependentUpon>
     </EmbeddedResource>
@@ -139,6 +160,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSets.resx">
       <DependentUpon>FormSets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStorage.resx">
+      <DependentUpon>FormStorage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStorages.resx">
+      <DependentUpon>FormStorages.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

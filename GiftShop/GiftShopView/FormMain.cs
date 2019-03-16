@@ -59,7 +59,16 @@ namespace GiftShopView
             var form = Container.Resolve<FormSets>();
             form.ShowDialog();
         }
-
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorages>();
+            form.ShowDialog();
+        }
+        private void пополнитьСкладToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormPutOnStorage>();
+            form.ShowDialog();
+        }
         private void buttonCreateProcedure_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormCreateProcedure>();

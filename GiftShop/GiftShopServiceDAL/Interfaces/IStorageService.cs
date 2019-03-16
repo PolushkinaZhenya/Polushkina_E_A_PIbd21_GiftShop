@@ -5,15 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.ViewModel;
-
 namespace GiftShopServiceDAL.Interfaces
 {
-    public interface ICustomerService
+    public interface IStorageService
     {
-        List<CustomerViewModel> GetList();
-        CustomerViewModel GetElement(int id);
-        void AddElement(CustomerBindingModel model);
-        void UpdElement(CustomerBindingModel model);
+        List<StorageViewModel> GetList();
+
+        StorageViewModel GetElement(int id);
+
+        void AddElement(StorageBindingModel model);
+
+        void UpdElement(StorageBindingModel model);
+
         void DelElement(int id);
     }
 }
