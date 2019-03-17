@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace GiftShopModel
 {
     /// <summary> 
@@ -12,6 +13,9 @@ namespace GiftShopModel
     public class Customer
     {
         public int Id { get; set; }
+        [Required]
         public string CustomerFIO { get; set; }
+        [ForeignKey("CustomerId")]
+        public virtual List<Procedure> Procedures { get; set; }
     }
 }
