@@ -67,9 +67,7 @@ namespace GiftShopServiceImplementDataBase.Implementations
             {
                 try
                 {
-
-                    Procedure element = context.Procedures.FirstOrDefault(rec =>
-                    rec.Id == model.Id);
+                    Procedure element = context.Procedures.FirstOrDefault(rec => rec.Id == model.Id);
                     if (element == null)
                     {
                         throw new Exception("Элемент не найден");
@@ -128,10 +126,6 @@ namespace GiftShopServiceImplementDataBase.Implementations
             Procedure element = context.Procedures.FirstOrDefault(rec =>
             rec.Id == model.Id);
             if (element == null)
-
-
-
-
             {
                 throw new Exception("Элемент не найден");
             }
