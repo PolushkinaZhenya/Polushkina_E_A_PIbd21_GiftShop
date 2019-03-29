@@ -19,5 +19,7 @@ namespace GiftShopModel
         public ProcedureStatus Status { get; set; }
         public DateTime DateCreate { get; set; }
         public DateTime? DateImplement { get; set; } //DateTime?- можно хратить значение null
+        public virtual Customer Customer { get; set; }
+        public virtual Set Set { get; set; }
     }
 }

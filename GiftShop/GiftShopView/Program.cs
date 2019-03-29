@@ -7,6 +7,10 @@ using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceImplementList.Implementations;
 using Unity;
 using Unity.Lifetime;
+using GiftShopServiceImplementDataBase;
+using GiftShopServiceImplementDataBase.Implementations;
+using System.Data.Entity;
+
 namespace GiftShopView
 {
     static class Program
@@ -26,12 +30,20 @@ namespace GiftShopView
         public static IUnityContainer BuildUnityContainer()
         {
             var currentContainer = new UnityContainer();
-            currentContainer.RegisterType<ICustomerService, CustomerServiceList>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IPartService, PartServiceList>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ISetService, SetServiceList>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IMainService, MainServiceList>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<DbContext,
+                GiftDbContext>(new 
+                HierarchicalLifetimeManager());
+                currentContainer.RegisterType<ICustomerService, CustomerServiceDB>(new 
+                    HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IPartService, PartServiceDB>(new 
+                HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ISetService, SetServiceDB>(new 
+                HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStorageService, StorageServiceDB>(new 
+                HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IMainService, MainServiceDB>(new 
+                HierarchicalLifetimeManager());
 
-            currentContainer.RegisterType<IStorageService, StorageServiceList>(new HierarchicalLifetimeManager());
             return currentContainer;
         }
     }

@@ -26,12 +26,16 @@ namespace GiftShopServiceImplementList.Implementations
             {
                 Id = rec.Id,
                 StorageName = rec.StorageName,
-                StorageParts = source.StorageParts.Where(recPC => recPC.StorageId == rec.Id).Select(recPC => new StoragePartViewModel
+                StorageParts = source.StorageParts.Where(recPC =>
+                recPC.StorageId == rec.Id).Select(recPC => new StoragePartViewModel
                 {
                     Id = recPC.Id,
                     StorageId = recPC.StorageId,
                     PartId = recPC.PartId,
-                    PartName = source.Parts.FirstOrDefault(recC => recC.Id == recPC.PartId)?.PartName, Count = recPC.Count }).ToList() }).ToList();
+                    PartName = source.Parts.FirstOrDefault(recC => recC.Id == recPC.PartId)?.PartName,
+                    Count = recPC.Count
+                }).ToList()
+            }).ToList();
             return result;
         }
 
@@ -49,9 +53,13 @@ namespace GiftShopServiceImplementList.Implementations
                         Id = recPC.Id,
                         StorageId = recPC.StorageId,
                         PartId = recPC.PartId,
-                        PartName = source.Parts.FirstOrDefault(recC => recC.Id == recPC.PartId)?.PartName, Count = recPC.Count }).ToList()
+                        PartName = source.Parts.FirstOrDefault(recC => recC.Id == recPC.PartId)?.PartName,
+                        Count = recPC.Count
+                    }).ToList()
                 };
-            } throw new Exception("Элемент не найден"); }
+            }
+            throw new Exception("Элемент не найден");
+        }
 
         public void AddElement(StorageBindingModel model)
         {
@@ -95,6 +103,6 @@ namespace GiftShopServiceImplementList.Implementations
             {
                 throw new Exception("Элемент не найден");
             }
-        }   
+        }
     }
 }
