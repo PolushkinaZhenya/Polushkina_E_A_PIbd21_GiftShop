@@ -9,20 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using Unity;
+using GiftShopServiceDAL.BindingModel;
+
 namespace GiftShopView
 {
     public partial class FormStorages : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
-        private readonly IStorageService service;
-
-        public FormStorages(IStorageService service)
+        public FormStorages()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormStorages_Load(object sender, EventArgs e)
@@ -34,7 +29,7 @@ namespace GiftShopView
         {
             try
             {
-                List<StorageViewModel> list = service.GetList();
+                List<StorageViewModel> list = APICustomer.GetRequest<List<StorageViewModel>>("api/Storage/GetList");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -50,7 +45,7 @@ namespace GiftShopView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormStorage>();
+            var form = new FormStorage();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -61,8 +56,10 @@ namespace GiftShopView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormStorage>();
-                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                var form = new FormStorage
+                {
+                    Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value)
+                };
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
@@ -79,7 +76,8 @@ namespace GiftShopView
                     int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        service.DelElement(id);
+                        APICustomer.PostRequest<StorageBindingModel,
+                             bool>("api/Storage/DelElement", new StorageBindingModel { Id = id });
                     }
                     catch (Exception ex)
                     {
