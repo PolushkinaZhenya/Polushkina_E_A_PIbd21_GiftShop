@@ -8,28 +8,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GiftShopServiceDAL.BindingModel;
+using GiftShopServiceDAL.ViewModel;
 using GiftShopServiceDAL.Interfaces;
-using Unity;
 
 namespace GiftShopView
 {
     public partial class FormStoragesLoad : Form
     {
-        [Dependency] public new IUnityContainer Container { get; set; }
 
-        private readonly IRecordService service;
-
-        public FormStoragesLoad(IRecordService service)
+        public FormStoragesLoad()
         {
             InitializeComponent();
-            this.service = service;
         } 
 
         private void FormStoragesLoad_Load(object sender, EventArgs e)
         {
             try
             {
-                var dict = service.GetStoragesLoad();
+                var dict = APICustomer.GetRequest<List<StoragesLoadViewModel>>("api/Report/GetStoragesLoad");
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();

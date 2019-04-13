@@ -10,26 +10,18 @@ using System.Windows.Forms;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using Unity;
-
 
 namespace GiftShopView
 {
     public partial class FormPart : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
         public int Id { set { id = value; } }
-
-        private readonly IPartService service;
 
         private int? id;
 
-        public FormPart(IPartService service)
+        public FormPart()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormPart_Load(object sender, EventArgs e)
@@ -38,11 +30,8 @@ namespace GiftShopView
             {
                 try
                 {
-                    PartViewModel view = service.GetElement(id.Value);
-                    if (view != null)
-                    {
-                        textBoxName.Text = view.PartName;
-                    }
+                    PartViewModel part = APICustomer.GetRequest<PartViewModel>("api/Part/Get/" + id.Value);
+                    textBoxName.Text = part.PartName;
                 }
                 catch (Exception ex)
                 {
@@ -62,18 +51,20 @@ namespace GiftShopView
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new PartBindingModel
-                    {
-                    Id = id.Value,
-                    PartName = textBoxName.Text
-                    });
+                    APICustomer.PostRequest<PartBindingModel,
+                        bool>("api/Part/UpdElement", new PartBindingModel
+                        {
+                            Id = id.Value,
+                            PartName = textBoxName.Text
+                        });
                 }
                 else
                 {
-                    service.AddElement(new PartBindingModel
-                    {
-                        PartName = textBoxName.Text
-                    });
+                    APICustomer.PostRequest<PartBindingModel,
+                         bool>("api/Part/AddElement", new PartBindingModel
+                         {
+                             PartName = textBoxName.Text
+                         });
                 }
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

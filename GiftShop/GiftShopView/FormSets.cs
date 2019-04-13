@@ -9,21 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using Unity;
+using GiftShopServiceDAL.BindingModel;
 
 namespace GiftShopView
 {
     public partial class FormSets : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; } 
-
-        private readonly ISetService service;
-
-        public FormSets(ISetService service)
+        public FormSets()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormSets_Load(object sender, EventArgs e)
@@ -35,7 +29,7 @@ namespace GiftShopView
         {
             try
             {
-                List<SetViewModel> list = service.GetList();
+                List<SetViewModel> list = APICustomer.GetRequest<List<SetViewModel>>("api/Set/GetList");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -51,7 +45,7 @@ namespace GiftShopView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormSet>();
+            var form = new FormSet();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -62,8 +56,10 @@ namespace GiftShopView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormSet>();
-                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                var form = new FormSet
+                {
+                    Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value)
+                };
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
@@ -80,7 +76,8 @@ namespace GiftShopView
                     int id =Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        service.DelElement(id);
+                        APICustomer.PostRequest<SetBindingModel,
+                            bool>("api/Set/DelElement", new SetBindingModel { Id = id });
                     }
                     catch (Exception ex)
                     {

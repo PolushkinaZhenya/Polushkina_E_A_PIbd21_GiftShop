@@ -8,22 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GiftShopServiceDAL.BindingModel;
-using GiftShopServiceDAL.Interfaces;
+using GiftShopServiceDAL.ViewModel;
 using Microsoft.Reporting.WinForms;
-using Unity;
+
 namespace GiftShopView
 {
     public partial class FormCustomerProcedures : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
-        private readonly IRecordService service;
-
-        public FormCustomerProcedures(IRecordService service)
+        public FormCustomerProcedures()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void buttonMake_Click(object sender, EventArgs e)
@@ -42,12 +36,16 @@ namespace GiftShopView
                     " по " +
                     dateTimePickerTo.Value.ToShortDateString());
                 recordViewer.LocalReport.SetParameters(parameter);
-                var dataSource = service.GetCustomerProcedures(new RecordBindingModel
-                {
-                    DateFrom = dateTimePickerFrom.Value,
-                    DateTo = dateTimePickerTo.Value
-                });
-                ReportDataSource source = new ReportDataSource("DataSetProcedures", dataSource);
+
+                List<CustomerProceduresModel> response =
+                    APICustomer.PostRequest<RecordBindingModel,
+                    List<CustomerProceduresModel>>("api/Report/GetCustomerProcedures", new RecordBindingModel
+                    {
+                        DateFrom = dateTimePickerFrom.Value,
+                        DateTo = dateTimePickerTo.Value
+                    });
+
+                ReportDataSource source = new ReportDataSource("DataSetProcedures", response);
                 recordViewer.LocalReport.DataSources.Add(source);
                 recordViewer.RefreshReport();
             }
@@ -66,12 +64,16 @@ namespace GiftShopView
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            SaveFileDialog sfd = new SaveFileDialog { Filter = "pdf|*.pdf" };
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "pdf|*.pdf"
+            };
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    service.SaveCustomerProcedures(new RecordBindingModel
+                    APICustomer.PostRequest<RecordBindingModel, 
+                        bool>("api/Report/SaveCustomerProcedures", new RecordBindingModel
                     {
                         FileName = sfd.FileName,
                         DateFrom = dateTimePickerFrom.Value,

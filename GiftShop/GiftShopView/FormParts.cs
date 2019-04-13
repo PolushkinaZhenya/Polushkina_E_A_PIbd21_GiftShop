@@ -9,21 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using Unity;
+using GiftShopServiceDAL.BindingModel;
 
 namespace GiftShopView
 {
     public partial class FormParts : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
-        private readonly IPartService service;
-
-        public FormParts(IPartService service)
+        public FormParts()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormParts_Load(object sender, EventArgs e)
@@ -35,7 +29,8 @@ namespace GiftShopView
         {
             try
             {
-                List<PartViewModel> list = service.GetList(); if (list != null)
+                List<PartViewModel> list = APICustomer.GetRequest<List<PartViewModel>>("api/Part/GetList");
+                if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
@@ -51,7 +46,7 @@ namespace GiftShopView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormPart>();
+            var form = new FormPart();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -62,8 +57,10 @@ namespace GiftShopView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormPart>();
-                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                var form = new FormPart
+                {
+                    Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value)
+                };
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
@@ -80,7 +77,8 @@ namespace GiftShopView
                     int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        service.DelElement(id);
+                        APICustomer.PostRequest<PartBindingModel,
+                            bool>("api/Part/DelElement", new PartBindingModel { Id = id });
                     } catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);

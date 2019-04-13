@@ -10,33 +10,21 @@ using System.Windows.Forms;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using Unity;
+
 namespace GiftShopView
 {
     public partial class FormPutOnStorage : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
-        private readonly IStorageService serviceS;
-
-        private readonly IPartService serviceC;
-
-        private readonly IMainService serviceM;
-
-        public FormPutOnStorage(IStorageService serviceS, IPartService serviceC, IMainService serviceM)
+        public FormPutOnStorage()
         {
             InitializeComponent();
-            this.serviceS = serviceS;
-            this.serviceC = serviceC;
-            this.serviceM = serviceM;
         }
 
         private void FormPutOnStorage_Load(object sender, EventArgs e)
         {
             try
             {
-                List<PartViewModel> listC = serviceC.GetList();
+                List<PartViewModel> listC = APICustomer.GetRequest<List<PartViewModel>>("api/Part/GetList");
                 if (listC != null)
                 {
                     comboBoxPart.DisplayMember = "PartName";
@@ -44,7 +32,7 @@ namespace GiftShopView
                     comboBoxPart.DataSource = listC;
                     comboBoxPart.SelectedItem = null;
                 }
-                List<StorageViewModel> listS = serviceS.GetList();
+                List<StorageViewModel> listS = APICustomer.GetRequest<List<StorageViewModel>>("api/Storage/GetList");
                 if (listS != null)
                 {
                     comboBoxStorage.DisplayMember = "StorageName";

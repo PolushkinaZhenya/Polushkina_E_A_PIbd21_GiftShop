@@ -9,7 +9,7 @@ namespace GiftShopServiceImplementDataBase
 {
     public class GiftDbContext : DbContext
     {
-        public GiftDbContext() : base("AbstractDatabase")
+        public GiftDbContext() : base("GiftDatabase")
         {             //настройки конфигурации для entity  
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;

@@ -10,27 +10,20 @@ using System.Windows.Forms;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using Unity;
 
 namespace GiftShopView
 {
     public partial class FormSet : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
         public int Id { set { id = value; } }
-
-        private readonly ISetService service;
 
         private int? id;
 
         private List<SetPartViewModel> SetParts;
 
-        public FormSet(ISetService service)
+        public FormSet()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormSet_Load(object sender, EventArgs e)
@@ -39,14 +32,11 @@ namespace GiftShopView
             {
                 try
                 {
-                    SetViewModel view = service.GetElement(id.Value);
-                    if (view != null)
-                    {
-                        textBoxName.Text = view.SetName;
-                        textBoxPrice.Text = view.Price.ToString();
-                        SetParts = view.SetParts;
-                        LoadData();
-                    }
+                    SetViewModel set = APICustomer.GetRequest<SetViewModel>("api/Set/Get/" + id.Value);
+                    textBoxName.Text = set.SetName;
+                    textBoxPrice.Text = set.Price.ToString();
+                    SetParts = set.SetParts;
+                    LoadData();
                 }
                 catch (Exception ex)
                 {
@@ -83,7 +73,7 @@ namespace GiftShopView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormSetPart>();
+            var form = new FormSetPart();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 if (form.Model != null)
@@ -102,7 +92,7 @@ namespace GiftShopView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormSetPart>();
+                var form = new FormSetPart();
                 form.Model = SetParts[dataGridView.SelectedRows[0].Cells[0].RowIndex];
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -168,8 +158,9 @@ namespace GiftShopView
                 }
                 if (id.HasValue)
                 {
-                    service.UpdElement(new SetBindingModel
-                    {
+                    APICustomer.PostRequest<SetBindingModel,
+                        bool>("api/Set/UpdElement", new SetBindingModel
+                        {
                         Id = id.Value,
                         SetName = textBoxName.Text,
                         Price = Convert.ToInt32(textBoxPrice.Text),
@@ -178,8 +169,9 @@ namespace GiftShopView
                 }
                 else
                 {
-                    service.AddElement(new SetBindingModel
-                    {
+                    APICustomer.PostRequest<SetBindingModel,
+                        bool>("api/Set/UpdElement", new SetBindingModel
+                        {
                         SetName = textBoxName.Text,
                         Price = Convert.ToInt32(textBoxPrice.Text),
                         SetParts = setComponentBM

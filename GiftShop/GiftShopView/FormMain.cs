@@ -10,25 +10,20 @@ using System.Windows.Forms;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using Unity;
+
 namespace GiftShopView
 {
     public partial class FormMain : Form
     {
-        [Dependency] public new IUnityContainer Container { get; set; }
-        private readonly IMainService service;
-        private readonly IRecordService recordService;
-        public FormMain(IMainService service, IRecordService recordService)
+        public FormMain()
         {
             InitializeComponent();
-            this.service = service;
-            this.recordService = recordService;
         }
         private void LoadData()
         {
             try
             {
-                List<ProcedureViewModel> list = service.GetList();
+                List<ProcedureViewModel> list = APICustomer.GetRequest<List<ProcedureViewModel>>("api/Main/GetList");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -46,34 +41,34 @@ namespace GiftShopView
         }
         private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormCustomers>();
+            var form = new FormCustomers();
             form.ShowDialog();
         }
 
         private void компонентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormParts>();
+            var form = new FormParts();
             form.ShowDialog();
         }
 
         private void изделияToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormSets>();
+            var form = new FormSets();
             form.ShowDialog();
         }
         private void складыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormStorages>();
+            var form = new FormStorages();
             form.ShowDialog();
         }
         private void пополнитьСкладToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormPutOnStorage>();
+            var form = new FormPutOnStorage();
             form.ShowDialog();
         }
         private void buttonCreateProcedure_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormCreateProcedure>();
+            var form = new FormCreateProcedure();
             form.ShowDialog();
             LoadData();
         }
@@ -85,7 +80,11 @@ namespace GiftShopView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    service.TakeProcedureInWork(new ProcedureBindingModel { Id = id });
+                    APICustomer.PostRequest<ProcedureBindingModel,
+                        bool>("api/Main/TakeOrderInWork", new ProcedureBindingModel
+                        {
+                            Id = id
+                        });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -101,7 +100,11 @@ namespace GiftShopView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    service.FinishProcedure(new ProcedureBindingModel { Id = id });
+                    APICustomer.PostRequest<ProcedureBindingModel, 
+                        bool>("api/Main/FinishProcedure", new ProcedureBindingModel
+                        {
+                            Id = id
+                        });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -117,7 +120,11 @@ namespace GiftShopView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    service.PayProcedure(new ProcedureBindingModel { Id = id });
+                    APICustomer.PostRequest<ProcedureBindingModel,
+                        bool>("api/Main/.PayProcedure", new ProcedureBindingModel
+                        {
+                            Id = id
+                        });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -141,10 +148,11 @@ namespace GiftShopView
             {
                 try
                 {
-                    recordService.SaveSetPrice(new RecordBindingModel
-                    {
-                        FileName = sfd.FileName
-                    });
+                    APICustomer.PostRequest<RecordBindingModel,
+                        bool>("api/Report/SaveSetPrice", new RecordBindingModel
+                        {
+                            FileName = sfd.FileName
+                        });
                     MessageBox.Show("Выполнено", "Успех",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -158,13 +166,13 @@ namespace GiftShopView
 
         private void загруженностьСкладовToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormStoragesLoad>();
+            var form = new FormStoragesLoad();
             form.ShowDialog();
         }
 
         private void заказыКлиентовToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormCustomerProcedures>();
+            var form = new FormCustomerProcedures();
             form.ShowDialog();
         }
     }
