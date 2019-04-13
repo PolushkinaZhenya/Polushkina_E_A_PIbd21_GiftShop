@@ -16,6 +16,7 @@ namespace GiftShopView
     public partial class FormCustomer : Form
     {
         public int Id { set { id = value; } }
+
         private int? id;
 
         public FormCustomer()
@@ -49,20 +50,20 @@ namespace GiftShopView
             {
                 if (id.HasValue)
                 {
-                    APICustomer.PostRequest<CustomerBindingModel, 
+                    APICustomer.PostRequest<CustomerBindingModel,
                         bool>("api/Customer/UpdElement", new CustomerBindingModel
-                    {
-                        Id = id.Value,
-                        CustomerFIO = textBoxFIO.Text
-                    });
+                        {
+                            Id = id.Value,
+                            CustomerFIO = textBoxFIO.Text
+                        });
                 }
                 else
                 {
                     APICustomer.PostRequest<CustomerBindingModel,
                         bool>("api/Customer/AddElement", new CustomerBindingModel
-                    {
-                        CustomerFIO = textBoxFIO.Text
-                    });
+                        {
+                            CustomerFIO = textBoxFIO.Text
+                        });
                 }
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

@@ -15,23 +15,22 @@ namespace GiftShopView
 {
     public partial class FormStoragesLoad : Form
     {
-
         public FormStoragesLoad()
         {
             InitializeComponent();
-        } 
+        }
 
         private void FormStoragesLoad_Load(object sender, EventArgs e)
         {
             try
             {
-                var dict = APICustomer.GetRequest<List<StoragesLoadViewModel>>("api/Report/GetStoragesLoad");
+                var dict = APICustomer.GetRequest<List<StoragesLoadViewModel>>("api/Record/GetStoragesLoad");
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();
                     foreach (var elem in dict)
                     {
-                        dataGridView.Rows.Add(new object[] {elem.StorageName, "", "" });
+                        dataGridView.Rows.Add(new object[] { elem.StorageName, "", "" });
                         foreach (var listElem in elem.Parts)
                         {
                             dataGridView.Rows.Add(new object[] { "", listElem.Item1,
@@ -60,7 +59,8 @@ namespace GiftShopView
             {
                 try
                 {
-                    service.SaveStoragesLoad(new RecordBindingModel
+                    APICustomer.PostRequest<RecordBindingModel,
+                    bool>("api/Record/SaveStoragesLoad", new RecordBindingModel
                     {
                         FileName = sfd.FileName
                     });

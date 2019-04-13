@@ -46,7 +46,7 @@ namespace GiftShopRestApi.Controllers
         }
 
         [HttpPost]
-        public void SaveStocksLoad(RecordBindingModel model)
+        public void SaveStoragesLoad(RecordBindingModel model)
         {
             _service.SaveStoragesLoad(model);
         }

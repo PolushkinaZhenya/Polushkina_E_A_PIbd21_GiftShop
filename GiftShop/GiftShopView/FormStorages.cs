@@ -15,7 +15,6 @@ namespace GiftShopView
 {
     public partial class FormStorages : Form
     {
-
         public FormStorages()
         {
             InitializeComponent();

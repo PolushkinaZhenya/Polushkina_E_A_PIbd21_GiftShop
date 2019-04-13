@@ -39,7 +39,7 @@ namespace GiftShopView
 
                 List<CustomerProceduresModel> response =
                     APICustomer.PostRequest<RecordBindingModel,
-                    List<CustomerProceduresModel>>("api/Report/GetCustomerProcedures", new RecordBindingModel
+                    List<CustomerProceduresModel>>("api/Record/GetCustomerProcedures", new RecordBindingModel
                     {
                         DateFrom = dateTimePickerFrom.Value,
                         DateTo = dateTimePickerTo.Value
@@ -72,13 +72,13 @@ namespace GiftShopView
             {
                 try
                 {
-                    APICustomer.PostRequest<RecordBindingModel, 
-                        bool>("api/Report/SaveCustomerProcedures", new RecordBindingModel
-                    {
-                        FileName = sfd.FileName,
-                        DateFrom = dateTimePickerFrom.Value,
-                        DateTo = dateTimePickerTo.Value
-                    });
+                    APICustomer.PostRequest<RecordBindingModel,
+                        bool>("api/Record/SaveCustomerProcedures", new RecordBindingModel
+                        {
+                            FileName = sfd.FileName,
+                            DateFrom = dateTimePickerFrom.Value,
+                            DateTo = dateTimePickerTo.Value
+                        });
                     MessageBox.Show("Выполнено", "Успех",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

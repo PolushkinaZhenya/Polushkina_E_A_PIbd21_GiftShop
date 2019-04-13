@@ -29,14 +29,16 @@ namespace GiftShopView
             {
                 try
                 {
-                    StorageViewModel storage = APICustomer.GetRequest<StorageViewModel>("api/Storage/Get/" + id.Value);
-                    textBoxName.Text = storage.StorageName;
-                    dataGridView.DataSource = storage.StorageParts;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
+                    StorageViewModel view = APICustomer.GetRequest<StorageViewModel>("api/Storage/Get/" + id.Value);
+                    if (view != null)
+                    {
+                        textBoxName.Text = view.StorageName;
+                        dataGridView.DataSource = view.StorageParts;
+                        dataGridView.Columns[0].Visible = false;
+                        dataGridView.Columns[1].Visible = false;
+                        dataGridView.Columns[2].Visible = false;
+                        dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -59,17 +61,17 @@ namespace GiftShopView
                     APICustomer.PostRequest<StorageBindingModel,
                         bool>("api/Storage/UpdElement", new StorageBindingModel
                         {
-                        Id = id.Value,
-                        StorageName = textBoxName.Text
-                    });
+                            Id = id.Value,
+                            StorageName = textBoxName.Text
+                        });
                 }
                 else
                 {
                     APICustomer.PostRequest<StorageBindingModel,
                          bool>("api/Storage/AddElement", new StorageBindingModel
                          {
-                        StorageName = textBoxName.Text
-                    });
+                             StorageName = textBoxName.Text
+                         });
                 }
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

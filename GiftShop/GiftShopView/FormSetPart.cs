@@ -25,7 +25,7 @@ namespace GiftShopView
                 return model;
             }
         }
-        
+
         private SetPartViewModel model;
 
         public FormSetPart()

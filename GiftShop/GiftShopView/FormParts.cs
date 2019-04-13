@@ -79,7 +79,8 @@ namespace GiftShopView
                     {
                         APICustomer.PostRequest<PartBindingModel,
                             bool>("api/Part/DelElement", new PartBindingModel { Id = id });
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }

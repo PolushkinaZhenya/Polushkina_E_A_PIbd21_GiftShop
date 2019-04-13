@@ -32,11 +32,14 @@ namespace GiftShopView
             {
                 try
                 {
-                    SetViewModel set = APICustomer.GetRequest<SetViewModel>("api/Set/Get/" + id.Value);
-                    textBoxName.Text = set.SetName;
-                    textBoxPrice.Text = set.Price.ToString();
-                    SetParts = set.SetParts;
-                    LoadData();
+                    SetViewModel view = APICustomer.GetRequest<SetViewModel>("api/Set/Get/" + id.Value);
+                    if (view != null)
+                    {
+                        textBoxName.Text = view.SetName;
+                        textBoxPrice.Text = view.Price.ToString();
+                        SetParts = view.SetParts;
+                        LoadData();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -145,10 +148,11 @@ namespace GiftShopView
             }
             try
             {
-                List<SetPartBindingModel> setComponentBM = new List<SetPartBindingModel>();
+                List<SetPartBindingModel> setcomponentBM = new 
+                    List<SetPartBindingModel>();
                 for (int i = 0; i < SetParts.Count; ++i)
                 {
-                    setComponentBM.Add(new SetPartBindingModel
+                    setcomponentBM.Add(new SetPartBindingModel
                     {
                         Id = SetParts[i].Id,
                         SetId = SetParts[i].SetId,
@@ -161,21 +165,21 @@ namespace GiftShopView
                     APICustomer.PostRequest<SetBindingModel,
                         bool>("api/Set/UpdElement", new SetBindingModel
                         {
-                        Id = id.Value,
-                        SetName = textBoxName.Text,
-                        Price = Convert.ToInt32(textBoxPrice.Text),
-                        SetParts = setComponentBM
-                    });
+                            Id = id.Value,
+                            SetName = textBoxName.Text,
+                            Price = Convert.ToInt32(textBoxPrice.Text),
+                            SetParts = setcomponentBM
+                        });
                 }
                 else
                 {
                     APICustomer.PostRequest<SetBindingModel,
-                        bool>("api/Set/UpdElement", new SetBindingModel
+                        bool>("api/Set/AddElement", new SetBindingModel
                         {
-                        SetName = textBoxName.Text,
-                        Price = Convert.ToInt32(textBoxPrice.Text),
-                        SetParts = setComponentBM
-                    });
+                            SetName = textBoxName.Text,
+                            Price = Convert.ToInt32(textBoxPrice.Text),
+                            SetParts = setcomponentBM
+                        });
                 }
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

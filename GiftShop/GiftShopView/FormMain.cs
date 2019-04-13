@@ -81,7 +81,7 @@ namespace GiftShopView
                 try
                 {
                     APICustomer.PostRequest<ProcedureBindingModel,
-                        bool>("api/Main/TakeOrderInWork", new ProcedureBindingModel
+                        bool>("api/Main/TakeProcedureInWork", new ProcedureBindingModel
                         {
                             Id = id
                         });
@@ -100,7 +100,7 @@ namespace GiftShopView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    APICustomer.PostRequest<ProcedureBindingModel, 
+                    APICustomer.PostRequest<ProcedureBindingModel,
                         bool>("api/Main/FinishProcedure", new ProcedureBindingModel
                         {
                             Id = id
@@ -121,7 +121,7 @@ namespace GiftShopView
                 try
                 {
                     APICustomer.PostRequest<ProcedureBindingModel,
-                        bool>("api/Main/.PayProcedure", new ProcedureBindingModel
+                        bool>("api/Main/PayProcedure", new ProcedureBindingModel
                         {
                             Id = id
                         });
@@ -149,7 +149,7 @@ namespace GiftShopView
                 try
                 {
                     APICustomer.PostRequest<RecordBindingModel,
-                        bool>("api/Report/SaveSetPrice", new RecordBindingModel
+                        bool>("api/Record/SaveSetPrice", new RecordBindingModel
                         {
                             FileName = sfd.FileName
                         });
