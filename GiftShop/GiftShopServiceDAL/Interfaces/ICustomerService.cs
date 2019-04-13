@@ -12,8 +12,8 @@ namespace GiftShopServiceDAL.Interfaces
     {
         List<CustomerViewModel> GetList();
         CustomerViewModel GetElement(int id);
-        void AddElement(СustomerBindingModel model);
-        void UpdElement(СustomerBindingModel model);
+        void AddElement(CustomerBindingModel model);
+        void UpdElement(CustomerBindingModel model);
         void DelElement(int id);
     }
 }

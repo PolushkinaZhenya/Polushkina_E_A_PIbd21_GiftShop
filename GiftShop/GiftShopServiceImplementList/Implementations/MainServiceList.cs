@@ -21,12 +21,12 @@ namespace GiftShopServiceImplementList.Implementations
             List<ProcedureViewModel> result = new List<ProcedureViewModel>();
             for (int i = 0; i < source.Procedures.Count; ++i)
             {
-                string costomerFIO = string.Empty;
+                string customerFIO = string.Empty;
                 for (int j = 0; j < source.Customers.Count; ++j)
                 {
                     if (source.Customers[j].Id == source.Procedures[i].CustomerId)
                     {
-                        costomerFIO = source.Customers[j].CustomerFIO;
+                        customerFIO = source.Customers[j].CustomerFIO;
                         break;
                     }
                 }
@@ -43,7 +43,7 @@ namespace GiftShopServiceImplementList.Implementations
                 {
                     Id = source.Procedures[i].Id,
                     CustomerId = source.Procedures[i].CustomerId,
-                    CostomerFIO = costomerFIO,
+                    CustomerFIO = customerFIO,
                     SetId = source.Procedures[i].SetId,
                     SetName = setName,
                     Count = source.Procedures[i].Count,

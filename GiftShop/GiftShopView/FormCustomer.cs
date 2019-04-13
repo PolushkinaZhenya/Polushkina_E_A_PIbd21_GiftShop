@@ -54,7 +54,7 @@ namespace GiftShopView
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new СustomerBindingModel
+                    service.UpdElement(new CustomerBindingModel
                     {
                         Id = id.Value,
                         CustomerFIO = textBoxFIO.Text
@@ -62,7 +62,7 @@ namespace GiftShopView
                 }
                 else
                 {
-                    service.AddElement(new СustomerBindingModel
+                    service.AddElement(new CustomerBindingModel
                     {
                         CustomerFIO = textBoxFIO.Text
                     });
