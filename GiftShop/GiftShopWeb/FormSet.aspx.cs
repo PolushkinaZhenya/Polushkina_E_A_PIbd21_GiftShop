@@ -18,7 +18,7 @@ namespace GiftShopWeb
 
         private int id;
 
-        private List<SetPartViewModel> SetPart;
+        private List<SetPartViewModel> setParts;
 
         private SetPartViewModel model;
 
@@ -31,9 +31,12 @@ namespace GiftShopWeb
                     SetViewModel view = service.GetElement(id);
                     if (view != null)
                     {
-                        textBoxName.Text = view.SetName;
-                        textBoxPrice.Text = view.Price.ToString();
-                        this.SetPart = view.SetParts;
+                        if (!Page.IsPostBack)
+                        {
+                            textBoxName.Text = view.SetName;
+                            textBoxPrice.Text = view.Price.ToString();
+                        }
+                        this.setParts = view.SetParts;
                         LoadData();
                     }
                 }
@@ -44,104 +47,88 @@ namespace GiftShopWeb
             }
             else
             {
-                if (service.GetList().Count == 0 || service.GetList().Last().SetName != null)
-                {
-                    this.SetPart = new List<SetPartViewModel>();
-                    LoadData();
-                }
-                else
-                {
-                    this.SetPart = service.GetList().Last().SetParts;
-                    LoadData();
-                }
+                this.setParts = new List<SetPartViewModel>();
             }
             if (Session["SEId"] != null)
             {
-                model = new SetPartViewModel
+                if ((Session["SEIs"] != null) && (Session["Change"].ToString() != "0"))
                 {
-                    Id = (int)Session["SEId"],
-                    SetId = (int)Session["SESetId"],
-                    PartId = (int)Session["SEPartId"],
-                    PartName = (string)Session["SEPartName"],
-                    Count = (int)Session["SECount"]
-                };
-                if (Session["SEIs"] != null)
-                {
-                    this.SetPart[(int)Session["SEIs"]] = model;
+                    model = new SetPartViewModel
+                    {
+                        Id = (int)Session["SEId"],
+                        SetId = (int)Session["SESetId"],
+                        PartId = (int)Session["SEPartId"],
+                        PartName = (string)Session["SEPartName"],
+                        Count = (int)Session["SECount"]
+                    };
+
+                    this.setParts[(int)Session["SEIs"]] = model;
+                    Session["Change"] = "0";
                 }
                 else
                 {
-                    this.SetPart.Add(model);
+                    model = new SetPartViewModel
+                    {
+                        SetId = (int)Session["SESetId"],
+                        PartId = (int)Session["SEPartId"],
+                        PartName = (string)Session["SEPartName"],
+                        Count = (int)Session["SECount"]
+                    };
+                    this.setParts.Add(model);
                 }
+                Session["SEId"] = null;
+                Session["SESetId"] = null;
+                Session["SEPartId"] = null;
+                Session["SEPartName"] = null;
+                Session["SECount"] = null;
+                Session["SEIs"] = null;
             }
-            List<SetPartBindingModel> commodityPart = new List<SetPartBindingModel>();
-            for (int i = 0; i < this.SetPart.Count; ++i)
+            List<SetPartBindingModel> setPartBM = new List<SetPartBindingModel>();
+            for (int i = 0; i < this.setParts.Count; ++i)
             {
-                commodityPart.Add(new SetPartBindingModel
+                setPartBM.Add(new SetPartBindingModel
                 {
-                    Id = this.SetPart[i].Id,
-                    SetId = this.SetPart[i].SetId,
-                    PartId = this.SetPart[i].PartId,
-                    Count = this.SetPart[i].Count
+                    Id = this.setParts[i].Id,
+                    SetId = this.setParts[i].SetId,
+                    PartId = this.setParts[i].PartId,
+                    Count = this.setParts[i].Count
                 });
             }
-            if (commodityPart.Count != 0)
+            if (setPartBM.Count != 0)
             {
-                if (service.GetList().Count == 0 || service.GetList().Last().SetName != null)
-                {
-                    service.AddElement(new SetBindingModel
-                    {
-                        SetName = null,
-                        Price = -1,
-                        SetParts = commodityPart
-                    });
-                }
-                else
+                if (Int32.TryParse((string)Session["id"], out id))
                 {
                     service.UpdElement(new SetBindingModel
                     {
-                        Id = service.GetList().Last().Id,
-                        SetName = null,
-                        Price = -1,
-                        SetParts = commodityPart
+                        Id = id,
+                        SetName = textBoxName.Text,
+                        Price = Convert.ToInt32(textBoxPrice.Text),
+                        SetParts = setPartBM
                     });
                 }
-
-            }
-            try
-            {
-                if (this.SetPart != null)
+                else
                 {
-                    dataGridView.DataBind();
-                    dataGridView.DataSource = this.SetPart;
-                    dataGridView.DataBind();
-                    dataGridView.ShowHeaderWhenEmpty = true;
-                    dataGridView.SelectedRowStyle.BackColor = Color.Silver;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].Visible = false;
+                    service.AddElement(new SetBindingModel
+                    {
+                        SetName = "-0",
+                        Price = 0,
+                        SetParts = setPartBM
+                    });
+                    Session["id"] = service.GetList().Last().Id.ToString();
+                    Session["Change"] = "0";
                 }
             }
-            catch (Exception ex)
-            {
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert('" + ex.Message + "');</script>");
-            }
-            Session["SEId"] = null;
-            Session["SESetId"] = null;
-            Session["SEPartId"] = null;
-            Session["SEPartName"] = null;
-            Session["SECount"] = null;
-            Session["SEIs"] = null;
+            LoadData();
         }
 
         private void LoadData()
         {
             try
             {
-                if (SetPart != null)
+                if (setParts != null)
                 {
                     dataGridView.DataBind();
-                    dataGridView.DataSource = SetPart;
+                    dataGridView.DataSource = setParts;
                     dataGridView.DataBind();
                     dataGridView.ShowHeaderWhenEmpty = true;
                     dataGridView.SelectedRowStyle.BackColor = Color.Silver;
@@ -165,12 +152,14 @@ namespace GiftShopWeb
         {
             if (dataGridView.SelectedIndex >= 0)
             {
+                model = service.GetElement(id).SetParts[dataGridView.SelectedIndex];
                 Session["SEId"] = model.Id;
                 Session["SESetId"] = model.SetId;
                 Session["SEPartId"] = model.PartId;
                 Session["SEPartName"] = model.PartName;
                 Session["SECount"] = model.Count;
                 Session["SEIs"] = dataGridView.SelectedIndex;
+                Session["Change"] = "0";
                 Server.Transfer("FormSetPart.aspx");
             }
         }
@@ -181,7 +170,7 @@ namespace GiftShopWeb
             {
                 try
                 {
-                    SetPart.RemoveAt(dataGridView.SelectedIndex);
+                    setParts.RemoveAt(dataGridView.SelectedIndex);
                 }
                 catch (Exception ex)
                 {
@@ -208,25 +197,24 @@ namespace GiftShopWeb
                 Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert('Заполните цену');</script>");
                 return;
             }
-            if (SetPart == null || SetPart.Count == 0)
+            if (setParts == null || setParts.Count == 0)
             {
                 Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert('Заполните компоненты');</script>");
                 return;
             }
             try
             {
-                List<SetPartBindingModel> commodityPartBM = new List<SetPartBindingModel>();
-                for (int i = 0; i < SetPart.Count; ++i)
+                List<SetPartBindingModel> setPartBM = new List<SetPartBindingModel>();
+                for (int i = 0; i < setParts.Count; ++i)
                 {
-                    commodityPartBM.Add(new SetPartBindingModel
+                    setPartBM.Add(new SetPartBindingModel
                     {
-                        Id = SetPart[i].Id,
-                        SetId = SetPart[i].SetId,
-                        PartId = SetPart[i].PartId,
-                        Count = SetPart[i].Count
+                        Id = setParts[i].Id,
+                        SetId = setParts[i].SetId,
+                        PartId = setParts[i].PartId,
+                        Count = setParts[i].Count
                     });
                 }
-                service.DelElement(service.GetList().Last().Id);
                 if (Int32.TryParse((string)Session["id"], out id))
                 {
                     service.UpdElement(new SetBindingModel
@@ -234,7 +222,7 @@ namespace GiftShopWeb
                         Id = id,
                         SetName = textBoxName.Text,
                         Price = Convert.ToInt32(textBoxPrice.Text),
-                        SetParts = commodityPartBM
+                        SetParts = setPartBM
                     });
                 }
                 else
@@ -243,10 +231,11 @@ namespace GiftShopWeb
                     {
                         SetName = textBoxName.Text,
                         Price = Convert.ToInt32(textBoxPrice.Text),
-                        SetParts = commodityPartBM
+                        SetParts = setPartBM
                     });
                 }
                 Session["id"] = null;
+                Session["Change"] = null;
                 Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert('Сохранение прошло успешно');</script>");
                 Server.Transfer("FormSets.aspx");
             }
@@ -262,7 +251,12 @@ namespace GiftShopWeb
             {
                 service.DelElement(service.GetList().Last().Id);
             }
+            if (!String.Equals(Session["Change"], null))
+            {
+                service.DelElement(id);
+            }
             Session["id"] = null;
+            Session["Change"] = null;
             Server.Transfer("FormSets.aspx");
         }
 

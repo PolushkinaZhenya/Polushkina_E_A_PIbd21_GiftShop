@@ -15,13 +15,13 @@ namespace GiftShopWeb
     {
         private readonly IPartService service = new PartServiceList();
 
-        private SetPartViewModel model;
+        public SetPartViewModel model;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            try
+            if (!Page.IsPostBack)
             {
-                if (!Page.IsPostBack)
+                try
                 {
                     List<PartViewModel> list = service.GetList();
                     if (list != null)
@@ -32,18 +32,30 @@ namespace GiftShopWeb
                         DropDownListPart.SelectedIndex = -1;
                         Page.DataBind();
                     }
+
                 }
-            }
-            catch (Exception ex)
-            {
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert('" + ex.Message + "');</script>");
+                catch (Exception ex)
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert('" + ex.Message + "');</script>");
+                }
             }
             if (Session["SEId"] != null)
             {
+                model = new SetPartViewModel
+                {
+                    PartId = Convert.ToInt32(Session["SEPartId"]),
+                    PartName = Session["SEPartName"].ToString(),
+                    Count = Convert.ToInt32(Session["SECount"].ToString())
+                };
                 DropDownListPart.Enabled = false;
-                DropDownListPart.SelectedValue = (string)Session["SEPartId"];
-                TextBoxCount.Text = (string)Session["SECount"];
+                DropDownListPart.SelectedValue = Session["SEPartId"].ToString();
             }
+
+            if ((Session["SEId"] != null) && (!Page.IsPostBack))
+            {
+                TextBoxCount.Text = Session["SECount"].ToString();
+            }
+
         }
 
         protected void ButtonSave_Click(object sender, EventArgs e)
@@ -82,6 +94,7 @@ namespace GiftShopWeb
                     Session["SEPartId"] = model.PartId;
                     Session["SEPartName"] = model.PartName;
                     Session["SECount"] = model.Count;
+                    Session["Change"] = "1";
                 }
                 Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert('Сохранение прошло успешно');</script>");
                 Server.Transfer("FormSet.aspx");

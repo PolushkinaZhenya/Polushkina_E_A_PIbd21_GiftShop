@@ -21,9 +21,9 @@ namespace GiftShopWeb
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            try
+            if (!Page.IsPostBack)
             {
-                if (!Page.IsPostBack)
+                try
                 {
                     List<CustomerViewModel> listC = serviceC.GetList();
                     if (listC != null)
@@ -42,11 +42,12 @@ namespace GiftShopWeb
                         DropDownListSet.DataValueField = "Id";
                     }
                     Page.DataBind();
+
                 }
-            }
-            catch (Exception ex)
-            {
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert('" + ex.Message + "');</script>");
+                catch (Exception ex)
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert('" + ex.Message + "');</script>");
+                }
             }
         }
 
@@ -67,11 +68,6 @@ namespace GiftShopWeb
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert('" + ex.Message + "');</script>");
                 }
             }
-        }
-
-        protected void DropDownListService_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            CalcSum();
         }
 
         protected void TextBoxCount_TextChanged(object sender, EventArgs e)

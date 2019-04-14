@@ -16,7 +16,8 @@
         </asp:DropDownList>
         <br />
         <br />
-        Компонент &nbsp;&nbsp;<asp:DropDownList ID="DropDownListSet" runat="server" Height="16px" Width="285px">
+        Изделие &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:DropDownList ID="DropDownListSet" runat="server" Height="16px" Width="285px">
         </asp:DropDownList>
         <br />
         <br />

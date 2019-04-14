@@ -29,21 +29,25 @@ namespace GiftShopWeb
                     PartViewModel view = service.GetElement(id);
                     if (view != null)
                     {
-                        name = view.PartName;
-                        service.UpdElement(new PartBindingModel
+                        //name = view.PartName;
+                        //service.UpdElement(new PartBindingModel
+                        //{
+                        //    Id = id,
+                        //    PartName = ""
+                        //});
+                        //if (!string.IsNullOrEmpty(name) && string.IsNullOrEmpty(textBoxName.Text))
+                        //{
+                        //    textBoxName.Text = name;
+                        //}
+                        //service.UpdElement(new PartBindingModel
+                        //{
+                        //    Id = id,
+                        //    PartName = name
+                        //});
+                        if (!Page.IsPostBack)
                         {
-                            Id = id,
-                            PartName = ""
-                        });
-                        if (!string.IsNullOrEmpty(name) && string.IsNullOrEmpty(textBoxName.Text))
-                        {
-                            textBoxName.Text = name;
+                            textBoxName.Text = view.PartName;
                         }
-                        service.UpdElement(new PartBindingModel
-                        {
-                            Id = id,
-                            PartName = name
-                        });
                     }
                 }
                 catch (Exception ex)
