@@ -7,7 +7,6 @@ using GiftShopModel;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-
 using System.Data.Entity;
 using System.Data.Entity.SqlServer;
 
@@ -120,7 +119,6 @@ namespace GiftShopServiceImplementDataBase.Implementations
             }
         }
 
-
         public void FinishProcedure(ProcedureBindingModel model)
         {
             Procedure element = context.Procedures.FirstOrDefault(rec =>
@@ -169,6 +167,17 @@ namespace GiftShopServiceImplementDataBase.Implementations
                 });
             }
             context.SaveChanges();
+        }
+        public List<ProcedureViewModel> GetFreeProcedures()
+        {
+            List<ProcedureViewModel> result = context.Procedures
+                .Where(x => x.Status == ProcedureStatus.Принят || x.Status ==
+                ProcedureStatus.НедостаточноРесурсов)
+                .Select(rec => new ProcedureViewModel
+                {
+                    Id = rec.Id
+                }).ToList();
+            return result;
         }
     }
 }

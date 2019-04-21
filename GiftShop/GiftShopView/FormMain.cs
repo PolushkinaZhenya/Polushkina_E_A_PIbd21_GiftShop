@@ -23,7 +23,8 @@ namespace GiftShopView
         {
             try
             {
-                List<ProcedureViewModel> list = APICustomer.GetRequest<List<ProcedureViewModel>>("api/Main/GetList");
+                List<ProcedureViewModel> list =
+                    APICustomer.GetRequest<List<ProcedureViewModel>>("api/Main/GetList");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -61,6 +62,11 @@ namespace GiftShopView
             var form = new FormStorages();
             form.ShowDialog();
         }
+        private void продавцыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormSellers();
+            form.ShowDialog();
+        }
         private void пополнитьСкладToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FormPutOnStorage();
@@ -71,47 +77,6 @@ namespace GiftShopView
             var form = new FormCreateProcedure();
             form.ShowDialog();
             LoadData();
-        }
-
-        private void buttonTakeProcedureInWork_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                try
-                {
-                    APICustomer.PostRequest<ProcedureBindingModel,
-                        bool>("api/Main/TakeProcedureInWork", new ProcedureBindingModel
-                        {
-                            Id = id
-                        });
-                    LoadData();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-        private void buttonProcedureReady_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                try
-                {
-                    APICustomer.PostRequest<ProcedureBindingModel,
-                        bool>("api/Main/FinishProcedure", new ProcedureBindingModel
-                        {
-                            Id = id
-                        });
-                    LoadData();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
         }
         private void buttonPayProcedure_Click(object sender, EventArgs e)
         {
@@ -174,6 +139,20 @@ namespace GiftShopView
         {
             var form = new FormCustomerProcedures();
             form.ShowDialog();
+        }
+        private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                APICustomer.PostRequest<int?, bool>("api/Main/StartWork", null);
+                MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }

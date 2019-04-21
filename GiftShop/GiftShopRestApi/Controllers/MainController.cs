@@ -5,7 +5,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using GiftShopServiceDAL.BindingModel;
+using GiftShopServiceDAL.ViewModel;
 using GiftShopServiceDAL.Interfaces;
+using GiftShopRestApi.Services;
 
 namespace GiftShopRestApi.Controllers
 {
@@ -13,9 +15,13 @@ namespace GiftShopRestApi.Controllers
     {
         private readonly IMainService _service;
 
-        public MainController(IMainService service)
+        private readonly ISellerService _serviceSeller;
+
+        public MainController(IMainService service, ISellerService
+            serviceSeller)
         {
             _service = service;
+            _serviceSeller = serviceSeller;
         }
 
         [HttpGet]
@@ -36,18 +42,6 @@ namespace GiftShopRestApi.Controllers
         }
 
         [HttpPost]
-        public void TakeProcedureInWork(ProcedureBindingModel model)
-        {
-            _service.TakeProcedureInWork(model);
-        }
-
-        [HttpPost]
-        public void FinishProcedure(ProcedureBindingModel model)
-        {
-            _service.FinishProcedure(model);
-        }
-
-        [HttpPost]
         public void PayProcedure(ProcedureBindingModel model)
         {
             _service.PayProcedure(model);
@@ -57,6 +51,20 @@ namespace GiftShopRestApi.Controllers
         public void PutPartOnStorage(StoragePartBindingModel model)
         {
             _service.PutPartOnStorage(model);
+        }
+        [HttpPost]
+        public void StartWork()
+        {
+            List<ProcedureViewModel> procedures = _service.GetFreeProcedures();
+            foreach (var procedure in procedures)
+            {
+                SellerViewModel sel = _serviceSeller.GetFreeSeller();
+                if (sel == null)
+                {
+                    throw new Exception("Нет продавцов");
+                }
+                new WorkSeller(_service, _serviceSeller, sel.Id, procedure.Id);
+            }
         }
     }
 }

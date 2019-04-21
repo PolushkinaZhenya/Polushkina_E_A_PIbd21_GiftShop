@@ -10,7 +10,8 @@ namespace GiftShopServiceImplementDataBase
     public class GiftDbContext : DbContext
     {
         public GiftDbContext() : base("GiftDatabase")
-        {             //настройки конфигурации для entity  
+        {     
+            //настройки конфигурации для entity  
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;
             var ensureDLLIsCopied = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
@@ -22,6 +23,8 @@ namespace GiftShopServiceImplementDataBase
         public virtual DbSet<Procedure> Procedures { get; set; }
 
         public virtual DbSet<Set> Sets { get; set; }
+
+        public virtual DbSet<Seller> Sellers { get; set; }
 
         public virtual DbSet<SetPart> SetParts { get; set; }
 

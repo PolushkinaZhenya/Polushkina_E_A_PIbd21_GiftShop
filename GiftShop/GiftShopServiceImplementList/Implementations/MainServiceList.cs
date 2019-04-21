@@ -67,7 +67,7 @@ namespace GiftShopServiceImplementList.Implementations
             var setParts = source.SetParts.Where(rec => rec.SetId == element.SetId);
             foreach (var setPart in setParts)
             {
-                int countOnStorages = source.StorageParts.Where(rec => 
+                int countOnStorages = source.StorageParts.Where(rec =>
                 rec.PartId == setPart.PartId).Sum(rec => rec.Count);
                 if (countOnStorages < setPart.Count * element.Count)
                 {
@@ -129,7 +129,7 @@ namespace GiftShopServiceImplementList.Implementations
 
         public void PutPartOnStorage(StoragePartBindingModel model)
         {
-            StoragePart element = source.StorageParts.FirstOrDefault(rec => 
+            StoragePart element = source.StorageParts.FirstOrDefault(rec =>
             rec.StorageId == model.StorageId && rec.PartId == model.PartId);
             if (element != null)
             {
@@ -146,6 +146,10 @@ namespace GiftShopServiceImplementList.Implementations
                     Count = model.Count
                 });
             }
+        }
+        public List<ProcedureViewModel> GetFreeProcedures()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -63,11 +63,16 @@
     <Compile Include="Implementations\MainServiceDB.cs" />
     <Compile Include="Implementations\PartServiceDB.cs" />
     <Compile Include="Implementations\RecordServiceDB.cs" />
+    <Compile Include="Implementations\SellerServiceDB .cs" />
     <Compile Include="Implementations\SetServiceDB.cs" />
     <Compile Include="Implementations\StorageServiceDB.cs" />
     <Compile Include="Migrations\201903151546241_FirstMigration.cs" />
     <Compile Include="Migrations\201903151546241_FirstMigration.Designer.cs">
       <DependentUpon>201903151546241_FirstMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904211139114_NewMigration.cs" />
+    <Compile Include="Migrations\201904211139114_NewMigration.Designer.cs">
+      <DependentUpon>201904211139114_NewMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,6 +100,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201903151546241_FirstMigration.resx">
       <DependentUpon>201903151546241_FirstMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904211139114_NewMigration.resx">
+      <DependentUpon>201904211139114_NewMigration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

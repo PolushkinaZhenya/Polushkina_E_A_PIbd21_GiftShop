@@ -11,6 +11,8 @@ namespace GiftShopServiceDAL.Interfaces
     {
         List<ProcedureViewModel> GetList();
 
+        List<ProcedureViewModel> GetFreeProcedures();
+
         void CreateProcedure(ProcedureBindingModel model);
 
         void TakeProcedureInWork(ProcedureBindingModel model);

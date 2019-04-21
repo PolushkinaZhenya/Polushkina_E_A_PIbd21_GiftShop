@@ -51,6 +51,7 @@
     <Compile Include="Part.cs" />
     <Compile Include="Procedure.cs" />
     <Compile Include="ProcedureStatus.cs" />
+    <Compile Include="Seller.cs" />
     <Compile Include="Set.cs" />
     <Compile Include="SetPart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
