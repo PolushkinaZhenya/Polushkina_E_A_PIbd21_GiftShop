@@ -62,7 +62,7 @@ namespace GiftShopServiceImplementList.Implementations
             {
                 if (source.Procedures[i].Id > maxId)
                 {
-                    maxId = source.Customers[i].Id;
+                    maxId = source.Procedures[i].Id;
                 }
             }
             source.Procedures.Add(new Procedure
@@ -102,9 +102,10 @@ namespace GiftShopServiceImplementList.Implementations
 
         public void FinishProcedure(ProcedureBindingModel model)
         {
-            int index = -1; for (int i = 0; i < source.Procedures.Count; ++i)
+            int index = -1;
+            for (int i = 0; i < source.Procedures.Count; ++i)
             {
-                if (source.Customers[i].Id == model.Id)
+                if (source.Procedures[i].Id == model.Id)
                 {
                     index = i;
                     break;
@@ -125,7 +126,7 @@ namespace GiftShopServiceImplementList.Implementations
             int index = -1;
             for (int i = 0; i < source.Procedures.Count; ++i)
             {
-                if (source.Customers[i].Id == model.Id)
+                if (source.Procedures[i].Id == model.Id)
                 {
                     index = i;
                     break;

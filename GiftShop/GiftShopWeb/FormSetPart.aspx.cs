@@ -15,7 +15,7 @@ namespace GiftShopWeb
     {
         private readonly IPartService service = new PartServiceList();
 
-        public SetPartViewModel model;
+        private SetPartViewModel model;
 
         protected void Page_Load(object sender, EventArgs e)
         {
