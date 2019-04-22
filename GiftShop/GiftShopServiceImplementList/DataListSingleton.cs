@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using GiftShopModel;
 namespace GiftShopServiceImplementList
 {
-    public class DataListSingleton
+    class DataListSingleton
     {
         private static DataListSingleton instance;
         public List<Customer> Customers { get; set; }
@@ -14,6 +14,9 @@ namespace GiftShopServiceImplementList
         public List<Procedure> Procedures { get; set; }
         public List<Set> Sets { get; set; }
         public List<SetPart> SetParts { get; set; }
+        public List<Storage> Storages { get; set; }
+
+        public List<StoragePart> StorageParts { get; set; }
         private DataListSingleton()
         {
             Customers = new List<Customer>();
@@ -21,7 +24,8 @@ namespace GiftShopServiceImplementList
             Procedures = new List<Procedure>();
             Sets = new List<Set>();
             SetParts = new List<SetPart>();
-
+            Storages = new List<Storage>();
+            StorageParts = new List<StoragePart>();
         }
         public static DataListSingleton GetInstance()
         {
