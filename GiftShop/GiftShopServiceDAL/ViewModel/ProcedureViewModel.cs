@@ -29,6 +29,13 @@ namespace GiftShopServiceDAL.ViewModel
         public string SetName { get; set; }
 
         [DataMember]
+        public int? SellerId { get; set; }
+
+        [DataMember]
+        [DisplayName("Имя продавца")]
+        public string SellerFIO { get; set; }
+        
+        [DataMember]
         [DisplayName("Количество")]
         public int Count { get; set; }
         

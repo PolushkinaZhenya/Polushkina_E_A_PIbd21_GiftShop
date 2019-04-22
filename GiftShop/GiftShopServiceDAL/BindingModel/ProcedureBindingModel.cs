@@ -20,6 +20,9 @@ namespace GiftShopServiceDAL.BindingModel
         public int SetId { get; set; }
 
         [DataMember]
+        public int? SellerId { get; set; }
+
+        [DataMember]
         public int Count { get; set; }
 
         [DataMember]

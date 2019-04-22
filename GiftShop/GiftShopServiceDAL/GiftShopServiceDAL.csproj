@@ -48,6 +48,7 @@
     <Compile Include="BindingModel\PartBindingModel.cs" />
     <Compile Include="BindingModel\ProcedureBindingModel.cs" />
     <Compile Include="BindingModel\RecordBindingModel.cs" />
+    <Compile Include="BindingModel\SellerBindingModel.cs" />
     <Compile Include="BindingModel\SetBindingModel.cs" />
     <Compile Include="BindingModel\SetPartBindingModel.cs" />
     <Compile Include="BindingModel\StorageBindingModel .cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Interfaces\IPartService.cs" />
     <Compile Include="Interfaces\IMainService.cs" />
     <Compile Include="Interfaces\IRecordService.cs" />
+    <Compile Include="Interfaces\ISellerService .cs" />
     <Compile Include="Interfaces\ISetService.cs" />
     <Compile Include="Interfaces\IStorageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="ViewModel\CustomerViewModel.cs" />
     <Compile Include="ViewModel\PartViewModel.cs" />
     <Compile Include="ViewModel\ProcedureViewModel.cs" />
+    <Compile Include="ViewModel\SellerViewModel.cs" />
     <Compile Include="ViewModel\SetPartViewModel.cs" />
     <Compile Include="ViewModel\SetViewModel.cs" />
     <Compile Include="ViewModel\StoragePartViewModel.cs" />

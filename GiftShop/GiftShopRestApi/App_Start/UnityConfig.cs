@@ -59,6 +59,8 @@ namespace GiftShopRestApi
                 HierarchicalLifetimeManager());
             container.RegisterType<IRecordService, RecordServiceDB>(new 
                 HierarchicalLifetimeManager());
+            container.RegisterType<ISellerService, SellerServiceDB>(new
+                HierarchicalLifetimeManager());
         }
     }
 }

@@ -136,6 +136,18 @@
     <Compile Include="FormPutOnStorage.Designer.cs">
       <DependentUpon>FormPutOnStorage.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSeller.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSeller.Designer.cs">
+      <DependentUpon>FormSeller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSellers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSellers.Designer.cs">
+      <DependentUpon>FormSellers.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -198,6 +210,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormPutOnStorage.resx">
       <DependentUpon>FormPutOnStorage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSeller.resx">
+      <DependentUpon>FormSeller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSellers.resx">
+      <DependentUpon>FormSellers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSet.resx">
       <DependentUpon>FormSet.cs</DependentUpon>
