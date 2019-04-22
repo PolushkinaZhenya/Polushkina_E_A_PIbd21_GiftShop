@@ -33,7 +33,7 @@ namespace GiftShopServiceDAL.ViewModel
 
         [DataMember]
         [DisplayName("Имя продавца")]
-        public string SellerName { get; set; }
+        public string SellerFIO { get; set; }
         
         [DataMember]
         [DisplayName("Количество")]

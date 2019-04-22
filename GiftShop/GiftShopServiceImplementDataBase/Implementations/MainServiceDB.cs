@@ -29,6 +29,7 @@ namespace GiftShopServiceImplementDataBase.Implementations
                 Id = rec.Id,
                 CustomerId = rec.CustomerId,
                 SetId = rec.SetId,
+                SellerId = rec.SellerId,
                 DateCreate = SqlFunctions.DateName("dd", rec.DateCreate) + " " +
                 SqlFunctions.DateName("mm", rec.DateCreate) + " " +
                 SqlFunctions.DateName("yyyy", rec.DateCreate),
@@ -40,7 +41,8 @@ namespace GiftShopServiceImplementDataBase.Implementations
                 Count = rec.Count,
                 Sum = rec.Sum,
                 CustomerFIO = rec.Customer.CustomerFIO,
-                SetName = rec.Set.SetName
+                SetName = rec.Set.SetName,
+                SellerFIO = rec.Seller.SellerFIO
             })
             .ToList();
             return result;
@@ -71,7 +73,7 @@ namespace GiftShopServiceImplementDataBase.Implementations
                     {
                         throw new Exception("Элемент не найден");
                     }
-                    if (element.Status != ProcedureStatus.Принят)
+                    if ((element.Status != ProcedureStatus.Принят)&& (element.Status != ProcedureStatus.НедостаточноРесурсов))
                     {
                         throw new Exception("Заказ не в статусе \"Принят\"");
                     }
@@ -106,6 +108,7 @@ namespace GiftShopServiceImplementDataBase.Implementations
                                 setPart.Part.PartName + " требуется " + setPart.Count + ", не хватает " + countOnStorages);
                         }
                     }
+                    element.SellerId = model.SellerId;
                     element.DateImplement = DateTime.Now;
                     element.Status = ProcedureStatus.Выполняется;
                     context.SaveChanges();
@@ -114,6 +117,9 @@ namespace GiftShopServiceImplementDataBase.Implementations
                 catch (Exception)
                 {
                     transaction.Rollback();
+                    Procedure element = context.Procedures.FirstOrDefault(rec => rec.Id == model.Id);
+                    element.Status = ProcedureStatus.НедостаточноРесурсов;
+                    context.SaveChanges();
                     throw;
                 }
             }

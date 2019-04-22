@@ -52,7 +52,7 @@ namespace GiftShopRestApi.Services
                 // забиваем мастерскую
                 _sem.WaitOne();
                 // Типа выполняем
-                Thread.Sleep(10);
+                Thread.Sleep(10000);
                 _service.FinishProcedure(new ProcedureBindingModel
                 {
                     Id = _procedureId
