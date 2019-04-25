@@ -73,9 +73,12 @@
     <Content Include="FormMain.aspx" />
     <Content Include="FormPart.aspx" />
     <Content Include="FormParts.aspx" />
+    <Content Include="FormPutOnStorage.aspx" />
     <Content Include="FormSet.aspx" />
     <Content Include="FormSetPart.aspx" />
     <Content Include="FormSets.aspx" />
+    <Content Include="FormStorage.aspx" />
+    <Content Include="FormStorages.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +124,13 @@
     <Compile Include="FormParts.aspx.designer.cs">
       <DependentUpon>FormParts.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FormPutOnStorage.aspx.cs">
+      <DependentUpon>FormPutOnStorage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormPutOnStorage.aspx.designer.cs">
+      <DependentUpon>FormPutOnStorage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FormSet.aspx.cs">
       <DependentUpon>FormSet.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -141,6 +151,20 @@
     </Compile>
     <Compile Include="FormSets.aspx.designer.cs">
       <DependentUpon>FormSets.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormStorage.aspx.cs">
+      <DependentUpon>FormStorage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormStorage.aspx.designer.cs">
+      <DependentUpon>FormStorage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormStorages.aspx.cs">
+      <DependentUpon>FormStorages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormStorages.aspx.designer.cs">
+      <DependentUpon>FormStorages.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
