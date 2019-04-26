@@ -30,7 +30,7 @@ namespace GiftShopView
             {
                 try
                 {
-                    PartViewModel part = APICustomer.GetRequest<PartViewModel>("api/Part/Get/" + id.Value);
+                    PartViewModel part = APIClient.GetRequest<PartViewModel>("api/Part/Get/" + id.Value);
                     textBoxName.Text = part.PartName;
                 }
                 catch (Exception ex)
@@ -51,7 +51,7 @@ namespace GiftShopView
             {
                 if (id.HasValue)
                 {
-                    APICustomer.PostRequest<PartBindingModel,
+                    APIClient.PostRequest<PartBindingModel,
                         bool>("api/Part/UpdElement", new PartBindingModel
                         {
                             Id = id.Value,
@@ -60,7 +60,7 @@ namespace GiftShopView
                 }
                 else
                 {
-                    APICustomer.PostRequest<PartBindingModel,
+                    APIClient.PostRequest<PartBindingModel,
                          bool>("api/Part/AddElement", new PartBindingModel
                          {
                              PartName = textBoxName.Text

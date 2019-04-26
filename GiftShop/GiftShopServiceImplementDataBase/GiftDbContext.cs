@@ -31,5 +31,7 @@ namespace GiftShopServiceImplementDataBase
         public virtual DbSet<Storage> Storages { get; set; }
 
         public virtual DbSet<StoragePart> StorageParts { get; set; }
+
+        public virtual DbSet<MessageInfo> MessageInfos { get; set; }
     }
 }

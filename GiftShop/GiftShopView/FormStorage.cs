@@ -29,7 +29,7 @@ namespace GiftShopView
             {
                 try
                 {
-                    StorageViewModel view = APICustomer.GetRequest<StorageViewModel>("api/Storage/Get/" + id.Value);
+                    StorageViewModel view = APIClient.GetRequest<StorageViewModel>("api/Storage/Get/" + id.Value);
                     if (view != null)
                     {
                         textBoxName.Text = view.StorageName;
@@ -58,7 +58,7 @@ namespace GiftShopView
             {
                 if (id.HasValue)
                 {
-                    APICustomer.PostRequest<StorageBindingModel,
+                    APIClient.PostRequest<StorageBindingModel,
                         bool>("api/Storage/UpdElement", new StorageBindingModel
                         {
                             Id = id.Value,
@@ -67,7 +67,7 @@ namespace GiftShopView
                 }
                 else
                 {
-                    APICustomer.PostRequest<StorageBindingModel,
+                    APIClient.PostRequest<StorageBindingModel,
                          bool>("api/Storage/AddElement", new StorageBindingModel
                          {
                              StorageName = textBoxName.Text

@@ -49,6 +49,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -61,6 +62,7 @@
     <Compile Include="GiftDbContext.cs" />
     <Compile Include="Implementations\CustomerServiceDB.cs" />
     <Compile Include="Implementations\MainServiceDB.cs" />
+    <Compile Include="Implementations\MessageInfoServiceDB.cs" />
     <Compile Include="Implementations\PartServiceDB.cs" />
     <Compile Include="Implementations\RecordServiceDB.cs" />
     <Compile Include="Implementations\SellerServiceDB .cs" />
@@ -73,6 +75,10 @@
     <Compile Include="Migrations\201904211139114_NewMigration.cs" />
     <Compile Include="Migrations\201904211139114_NewMigration.Designer.cs">
       <DependentUpon>201904211139114_NewMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904251232311_Migration3.cs" />
+    <Compile Include="Migrations\201904251232311_Migration3.Designer.cs">
+      <DependentUpon>201904251232311_Migration3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904211139114_NewMigration.resx">
       <DependentUpon>201904211139114_NewMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904251232311_Migration3.resx">
+      <DependentUpon>201904251232311_Migration3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

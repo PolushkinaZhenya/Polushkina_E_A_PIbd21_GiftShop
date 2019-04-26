@@ -29,7 +29,7 @@ namespace GiftShopView
         {
             try
             {
-                List<StorageViewModel> list = APICustomer.GetRequest<List<StorageViewModel>>("api/Storage/GetList");
+                List<StorageViewModel> list = APIClient.GetRequest<List<StorageViewModel>>("api/Storage/GetList");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -76,7 +76,7 @@ namespace GiftShopView
                     int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        APICustomer.PostRequest<StorageBindingModel,
+                        APIClient.PostRequest<StorageBindingModel,
                              bool>("api/Storage/DelElement", new StorageBindingModel { Id = id });
                     }
                     catch (Exception ex)

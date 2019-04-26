@@ -24,7 +24,7 @@ namespace GiftShopView
         {
             try
             {
-                var dict = APICustomer.GetRequest<List<StoragesLoadViewModel>>("api/Record/GetStoragesLoad");
+                var dict = APIClient.GetRequest<List<StoragesLoadViewModel>>("api/Record/GetStoragesLoad");
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();
@@ -59,7 +59,7 @@ namespace GiftShopView
             {
                 try
                 {
-                    APICustomer.PostRequest<RecordBindingModel,
+                    APIClient.PostRequest<RecordBindingModel,
                     bool>("api/Record/SaveStoragesLoad", new RecordBindingModel
                     {
                         FileName = sfd.FileName

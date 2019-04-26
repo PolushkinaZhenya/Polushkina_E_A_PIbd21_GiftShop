@@ -32,7 +32,7 @@ namespace GiftShopView
             {
                 try
                 {
-                    SetViewModel view = APICustomer.GetRequest<SetViewModel>("api/Set/Get/" + id.Value);
+                    SetViewModel view = APIClient.GetRequest<SetViewModel>("api/Set/Get/" + id.Value);
                     if (view != null)
                     {
                         textBoxName.Text = view.SetName;
@@ -162,7 +162,7 @@ namespace GiftShopView
                 }
                 if (id.HasValue)
                 {
-                    APICustomer.PostRequest<SetBindingModel,
+                    APIClient.PostRequest<SetBindingModel,
                         bool>("api/Set/UpdElement", new SetBindingModel
                         {
                             Id = id.Value,
@@ -173,7 +173,7 @@ namespace GiftShopView
                 }
                 else
                 {
-                    APICustomer.PostRequest<SetBindingModel,
+                    APIClient.PostRequest<SetBindingModel,
                         bool>("api/Set/AddElement", new SetBindingModel
                         {
                             SetName = textBoxName.Text,

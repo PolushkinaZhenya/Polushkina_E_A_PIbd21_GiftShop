@@ -24,7 +24,7 @@ namespace GiftShopView
         {
             try
             {
-                List<PartViewModel> listC = APICustomer.GetRequest<List<PartViewModel>>("api/Part/GetList");
+                List<PartViewModel> listC = APIClient.GetRequest<List<PartViewModel>>("api/Part/GetList");
                 if (listC != null)
                 {
                     comboBoxPart.DisplayMember = "PartName";
@@ -32,7 +32,7 @@ namespace GiftShopView
                     comboBoxPart.DataSource = listC;
                     comboBoxPart.SelectedItem = null;
                 }
-                List<StorageViewModel> listS = APICustomer.GetRequest<List<StorageViewModel>>("api/Storage/GetList");
+                List<StorageViewModel> listS = APIClient.GetRequest<List<StorageViewModel>>("api/Storage/GetList");
                 if (listS != null)
                 {
                     comboBoxStorage.DisplayMember = "StorageName";
@@ -67,7 +67,7 @@ namespace GiftShopView
             }
             try
             {
-                APICustomer.PostRequest<StoragePartBindingModel,
+                APIClient.PostRequest<StoragePartBindingModel,
                    bool>("api/Main/PutPartOnStorage", new StoragePartBindingModel
                    {
                        PartId = Convert.ToInt32(comboBoxPart.SelectedValue),

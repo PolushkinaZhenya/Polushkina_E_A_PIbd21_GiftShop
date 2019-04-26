@@ -24,7 +24,7 @@ namespace GiftShopView
         {
             try
             {
-                List<CustomerViewModel> listC = APICustomer.GetRequest<List<CustomerViewModel>>("api/Customer/GetList");
+                List<CustomerViewModel> listC = APIClient.GetRequest<List<CustomerViewModel>>("api/Customer/GetList");
                 if (listC != null)
                 {
                     comboBoxCustomer.DisplayMember = "CustomerFIO";
@@ -32,7 +32,7 @@ namespace GiftShopView
                     comboBoxCustomer.DataSource = listC;
                     comboBoxCustomer.SelectedItem = null;
                 }
-                List<SetViewModel> listP = APICustomer.GetRequest<List<SetViewModel>>("api/Set/GetList");
+                List<SetViewModel> listP = APIClient.GetRequest<List<SetViewModel>>("api/Set/GetList");
                 if (listP != null)
                 {
                     comboBoxSet.DisplayMember = "SetName";
@@ -54,7 +54,7 @@ namespace GiftShopView
                 try
                 {
                     int id = Convert.ToInt32(comboBoxSet.SelectedValue);
-                    SetViewModel set = APICustomer.GetRequest<SetViewModel>("api/Set/Get/" + id);
+                    SetViewModel set = APIClient.GetRequest<SetViewModel>("api/Set/Get/" + id);
                     int count = Convert.ToInt32(textBoxCount.Text);
                     textBoxSum.Text = (count * set.Price).ToString();
                 }
@@ -94,7 +94,7 @@ namespace GiftShopView
             }
             try
             {
-                APICustomer.PostRequest<ProcedureBindingModel,
+                APIClient.PostRequest<ProcedureBindingModel,
                  bool>("api/Main/CreateProcedure", new ProcedureBindingModel
                  {
                     CustomerId = Convert.ToInt32(comboBoxCustomer.SelectedValue),

@@ -29,7 +29,7 @@ namespace GiftShopView
         {
             try
             {
-                List<SetViewModel> list = APICustomer.GetRequest<List<SetViewModel>>("api/Set/GetList");
+                List<SetViewModel> list = APIClient.GetRequest<List<SetViewModel>>("api/Set/GetList");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -76,7 +76,7 @@ namespace GiftShopView
                     int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        APICustomer.PostRequest<SetBindingModel,
+                        APIClient.PostRequest<SetBindingModel,
                             bool>("api/Set/DelElement", new SetBindingModel { Id = id });
                     }
                     catch (Exception ex)

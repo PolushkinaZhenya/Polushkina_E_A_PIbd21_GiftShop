@@ -103,7 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\MessageInfoController.cs" />
     <Compile Include="Controllers\PartController.cs" />
     <Compile Include="Controllers\RecordController.cs" />
     <Compile Include="Controllers\SellerController.cs" />

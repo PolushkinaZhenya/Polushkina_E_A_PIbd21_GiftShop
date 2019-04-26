@@ -24,7 +24,7 @@ namespace GiftShopView
             try
             {
                 List<ProcedureViewModel> list =
-                    APICustomer.GetRequest<List<ProcedureViewModel>>("api/Main/GetList");
+                    APIClient.GetRequest<List<ProcedureViewModel>>("api/Main/GetList");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -72,6 +72,11 @@ namespace GiftShopView
             var form = new FormPutOnStorage();
             form.ShowDialog();
         }
+        private void письмаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormMails();
+            form.ShowDialog();
+        }
         private void buttonCreateProcedure_Click(object sender, EventArgs e)
         {
             var form = new FormCreateProcedure();
@@ -85,7 +90,7 @@ namespace GiftShopView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    APICustomer.PostRequest<ProcedureBindingModel,
+                    APIClient.PostRequest<ProcedureBindingModel,
                         bool>("api/Main/PayProcedure", new ProcedureBindingModel
                         {
                             Id = id
@@ -113,7 +118,7 @@ namespace GiftShopView
             {
                 try
                 {
-                    APICustomer.PostRequest<RecordBindingModel,
+                    APIClient.PostRequest<RecordBindingModel,
                         bool>("api/Record/SaveSetPrice", new RecordBindingModel
                         {
                             FileName = sfd.FileName
@@ -144,7 +149,7 @@ namespace GiftShopView
         {
             try
             {
-                APICustomer.PostRequest<int?, bool>("api/Main/StartWork", null);
+                APIClient.PostRequest<int?, bool>("api/Main/StartWork", null);
                 MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }

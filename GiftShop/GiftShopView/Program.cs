@@ -19,7 +19,8 @@ namespace GiftShopView
         [STAThread]
         static void Main()
         {
-            APICustomer.Connect();
+            APIClient.Connect();
+            MailClient.Connect();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormMain());
