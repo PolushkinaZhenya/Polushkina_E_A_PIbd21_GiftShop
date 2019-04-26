@@ -7,20 +7,19 @@ using GiftShopModel;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-
-
-namespace GiftShopServiceImplementList.Implementations
+namespace GiftShopServiceImplementDataBase.Implementations
 {
-    public class PartServiceList : IPartService
+    public class PartServiceDB : IPartService
     {
-        private DataListSingleton source;
-        public PartServiceList()
+        private GiftDbContext context;
+        public PartServiceDB(GiftDbContext context)
         {
-            source = DataListSingleton.GetInstance();
+            this.context = context;
         }
         public List<PartViewModel> GetList()
         {
-            List<PartViewModel> result = source.Parts.Select(rec => new PartViewModel
+            List<PartViewModel> result = context.Parts.Select(rec => new
+            PartViewModel
             {
                 Id = rec.Id,
                 PartName = rec.PartName
@@ -28,54 +27,56 @@ namespace GiftShopServiceImplementList.Implementations
             .ToList();
             return result;
         }
-
         public PartViewModel GetElement(int id)
         {
-            Part element = source.Parts.FirstOrDefault(rec => rec.Id == id);
-            if (element != null)
-            { return new PartViewModel
-            { Id = element.Id, PartName = element.PartName };
+            Part part = context.Parts.FirstOrDefault(rec => rec.Id == id);
+            if (part != null)
+            {
+                return new PartViewModel
+                {
+                    Id = part.Id,
+                    PartName = part.PartName
+                };
             }
             throw new Exception("Элемент не найден");
         }
-
         public void AddElement(PartBindingModel model)
         {
-            Part element = source.Parts.FirstOrDefault(rec => rec.PartName == model.PartName);
-            if (element != null)
+            Part part = context.Parts.FirstOrDefault(rec => rec.PartName ==
+            model.PartName);
+            if (part != null)
             {
                 throw new Exception("Уже есть компонент с таким названием");
             }
-            int maxId = source.Parts.Count > 0 ? source.Parts.Max(rec => rec.Id) : 0;
-            source.Parts.Add(new Part
+            context.Parts.Add(new Part
             {
-                Id = maxId + 1,
                 PartName = model.PartName
             });
+            context.SaveChanges();
         }
-
         public void UpdElement(PartBindingModel model)
         {
-            Part element = source.Parts.FirstOrDefault(rec =>
-            rec.PartName == model.PartName && rec.Id != model.Id);
-            if (element != null)
+            Part part = context.Parts.FirstOrDefault(rec => rec.PartName ==
+            model.PartName && rec.Id != model.Id);
+            if (part != null)
             {
                 throw new Exception("Уже есть компонент с таким названием");
             }
-            element = source.Parts.FirstOrDefault(rec => rec.Id == model.Id);
-            if (element == null)
+            part = context.Parts.FirstOrDefault(rec => rec.Id == model.Id);
+            if (part == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            element.PartName = model.PartName;
+            part.PartName = model.PartName;
+            context.SaveChanges();
         }
-
         public void DelElement(int id)
         {
-            Part element = source.Parts.FirstOrDefault(rec => rec.Id == id);
-            if (element != null)
+            Part part = context.Parts.FirstOrDefault(rec => rec.Id == id);
+            if (part != null)
             {
-                source.Parts.Remove(element);
+                context.Parts.Remove(part);
+                context.SaveChanges();
             }
             else
             {

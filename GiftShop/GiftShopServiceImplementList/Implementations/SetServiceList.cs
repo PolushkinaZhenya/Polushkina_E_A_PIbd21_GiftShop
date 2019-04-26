@@ -61,7 +61,11 @@ namespace GiftShopServiceImplementList.Implementations
 
         public void AddElement(SetBindingModel model)
         {
-            Set element = source.Sets.FirstOrDefault(rec => rec.SetName == model.SetName); if (element != null) { throw new Exception("Уже есть изделие с таким названием"); }
+            Set element = source.Sets.FirstOrDefault(rec => rec.SetName == model.SetName);
+            if (element != null)
+            {
+                throw new Exception("Уже есть изделие с таким названием");
+            }
             int maxId = source.Sets.Count > 0 ? source.Sets.Max(rec => rec.Id) : 0; source.Sets.Add(new Set
             {
                 Id = maxId + 1,
@@ -93,22 +97,29 @@ namespace GiftShopServiceImplementList.Implementations
         {
             Set element = source.Sets.FirstOrDefault(rec => rec.SetName == model.SetName && rec.Id != model.Id);
             if (element != null)
-            { throw new Exception("Уже есть изделие с таким названием");
+            {
+                throw new Exception("Уже есть изделие с таким названием");
             }
-            element = source.Sets.FirstOrDefault(rec => rec.Id == model.Id); if (element == null) { throw new Exception("Элемент не найден"); }
+            element = source.Sets.FirstOrDefault(rec => rec.Id == model.Id);
+            if (element == null)
+            {
+                throw new Exception("Элемент не найден");
+            }
             element.SetName = model.SetName; element.Price = model.Price;
             int maxPCId = source.SetParts.Count > 0 ? source.SetParts.Max(rec => rec.Id) : 0;
             // обновляем существуюущие компоненты  
             var compIds = model.SetParts.Select(rec => rec.PartId).Distinct();
-            var updateComponents = source.SetParts.Where(rec => rec.SetId == model.Id && compIds.Contains(rec.SetId));
+            var updateComponents = source.SetParts.Where(rec =>
+            rec.SetId == model.Id && compIds.Contains(rec.SetId));
             foreach (var updateComponent in updateComponents)
             {
-                updateComponent.Count = model.SetParts.FirstOrDefault(rec => rec.Id == updateComponent.Id).Count;
+                updateComponent.Count = model.SetParts.FirstOrDefault(rec =>
+                rec.Id == updateComponent.Id).Count;
             }
             source.SetParts.RemoveAll(rec => rec.SetId == model.Id && !compIds.Contains(rec.PartId));
             // новые записи 
             var groupParts = model.SetParts.Where(rec => rec.Id == 0)
-                .GroupBy(rec => rec.PartId) 
+                .GroupBy(rec => rec.PartId)
                 .Select(rec => new
                 {
                     PartId = rec.Key,
@@ -131,7 +142,7 @@ namespace GiftShopServiceImplementList.Implementations
                         Count = groupPart.Count
                     });
                 }
-            } 
+            }
         }
 
         public void DelElement(int id)
@@ -146,5 +157,5 @@ namespace GiftShopServiceImplementList.Implementations
                 throw new Exception("Элемент не найден");
             }
         }
-            }
-        }
+    }
+}
