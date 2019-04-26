@@ -7,12 +7,15 @@ using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
+using GiftShopServiceImplementDataBase.Implementations;
 using GiftShopServiceImplementList.Implementations;
+using Unity;
+
 namespace GiftShopWeb
 {
     public partial class FormSets : System.Web.UI.Page
     {
-        private readonly ISetService service = new SetServiceList();
+        private readonly ISetService service = UnityConfig.Container.Resolve<SetServiceDB>();
 
         List<SetViewModel> list;
 

@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using GiftShopServiceImplementList.Implementations;
+using GiftShopServiceImplementDataBase.Implementations;
+using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormCreateProcedure : System.Web.UI.Page
     {
-        private readonly ICustomerService serviceC = new CustomerServiceList();
+        private readonly ICustomerService serviceC = UnityConfig.Container.Resolve<CustomerServiceDB>();
 
-        private readonly ISetService serviceS = new SetServiceList();
+        private readonly ISetService serviceS = UnityConfig.Container.Resolve<SetServiceDB>();
 
-        private readonly IMainService serviceM = new MainServiceList();
+        private readonly IMainService serviceM = UnityConfig.Container.Resolve<MainServiceDB>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -99,7 +97,7 @@ namespace GiftShopWeb
                     CustomerId = Convert.ToInt32(DropDownListCustomer.SelectedValue),
                     SetId = Convert.ToInt32(DropDownListSet.SelectedValue),
                     Count = Convert.ToInt32(TextBoxCount.Text),
-                    Sum = Convert.ToInt32(TextBoxSum.Text)
+                    Sum = Convert.ToDecimal(TextBoxSum.Text)
                 });
                 Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert('Сохранение прошло успешно');</script>");
                 Server.Transfer("FormMain.aspx");

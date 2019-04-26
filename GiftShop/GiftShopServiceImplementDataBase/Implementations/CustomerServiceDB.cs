@@ -12,11 +12,16 @@ namespace GiftShopServiceImplementDataBase.Implementations
 {
     public class CustomerServiceDB : ICustomerService
     {
-        private GiftDbContext context;
+        private GiftWebDbContext context;
 
-        public CustomerServiceDB(GiftDbContext context)
+        public CustomerServiceDB(GiftWebDbContext context)
         {
             this.context = context;
+        }
+
+        public CustomerServiceDB()
+        {
+            this.context = new GiftWebDbContext();
         }
 
         public List<CustomerViewModel> GetList()

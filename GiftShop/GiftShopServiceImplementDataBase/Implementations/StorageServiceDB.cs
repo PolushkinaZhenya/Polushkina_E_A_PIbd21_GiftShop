@@ -11,11 +11,18 @@ namespace GiftShopServiceImplementDataBase.Implementations
 {
     public class StorageServiceDB : IStorageService
     {
-        private GiftDbContext context;
-        public StorageServiceDB(GiftDbContext context)
+        private GiftWebDbContext context;
+
+        public StorageServiceDB(GiftWebDbContext context)
         {
             this.context = context;
         }
+
+        public StorageServiceDB()
+        {
+            this.context = new GiftWebDbContext();
+        }
+
         public List<StorageViewModel> GetList()
         {
             List<StorageViewModel> result = context.Storages.Select(rec => new

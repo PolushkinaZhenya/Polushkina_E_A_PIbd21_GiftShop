@@ -7,13 +7,15 @@ using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
+using GiftShopServiceImplementDataBase.Implementations;
 using GiftShopServiceImplementList.Implementations;
+using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormStorages : System.Web.UI.Page
     {
-        private readonly IStorageService service = new StorageServiceList();
+        private readonly IStorageService service = UnityConfig.Container.Resolve<StorageServiceDB>();
 
         List<StorageViewModel> list;
 

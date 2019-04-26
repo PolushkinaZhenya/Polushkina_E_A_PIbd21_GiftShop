@@ -11,11 +11,16 @@ namespace GiftShopServiceImplementDataBase.Implementations
 {
     public class SetServiceDB : ISetService
     {
-        private GiftDbContext context;
+        private GiftWebDbContext context;
 
-        public SetServiceDB(GiftDbContext context)
+        public SetServiceDB(GiftWebDbContext context)
         {
             this.context = context;
+        }
+
+        public SetServiceDB()
+        {
+            this.context = new GiftWebDbContext();
         }
 
         public List<SetViewModel> GetList()

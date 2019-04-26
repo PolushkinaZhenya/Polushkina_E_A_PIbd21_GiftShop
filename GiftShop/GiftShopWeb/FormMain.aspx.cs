@@ -7,12 +7,15 @@ using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
+using GiftShopServiceImplementDataBase.Implementations;
 using GiftShopServiceImplementList.Implementations;
+using Unity;
+
 namespace GiftShopWeb
 {
     public partial class FormMain : System.Web.UI.Page
     {
-        private readonly IMainService service = new MainServiceList();
+        private readonly IMainService service = UnityConfig.Container.Resolve<MainServiceDB>();
 
         List<ProcedureViewModel> list;
 

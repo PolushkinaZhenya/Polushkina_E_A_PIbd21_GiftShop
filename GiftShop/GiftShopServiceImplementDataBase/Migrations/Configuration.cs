@@ -5,14 +5,14 @@ namespace GiftShopServiceImplementDataBase.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<GiftShopServiceImplementDataBase.GiftDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<GiftShopServiceImplementDataBase.GiftWebDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(GiftShopServiceImplementDataBase.GiftDbContext context)
+        protected override void Seed(GiftShopServiceImplementDataBase.GiftWebDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

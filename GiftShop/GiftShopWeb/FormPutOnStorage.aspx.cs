@@ -7,17 +7,19 @@ using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
+using GiftShopServiceImplementDataBase.Implementations;
 using GiftShopServiceImplementList.Implementations;
+using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormPutOnStorage : System.Web.UI.Page
     {
-        private readonly IStorageService serviceS = new StorageServiceList();
+        private readonly IStorageService serviceS = UnityConfig.Container.Resolve<StorageServiceDB>();
 
-        private readonly IPartService serviceI = new PartServiceList();
+        private readonly IPartService serviceI = UnityConfig.Container.Resolve<PartServiceDB>();
 
-        private readonly IMainService serviceM = new MainServiceList();
+        private readonly IMainService serviceM = UnityConfig.Container.Resolve<MainServiceDB>();
 
         protected void Page_Load(object sender, EventArgs e)
         {

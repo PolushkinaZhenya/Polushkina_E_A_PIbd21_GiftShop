@@ -28,7 +28,7 @@
         <br />
         <asp:Button ID="ButtonBack" runat="server" Text="Вернуться" OnClick="ButtonBack_Click" />
     
-        <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" SelectMethod="GetList" TypeName="GiftShopServiceImplementList.Implementations.CustomerServiceList"></asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" SelectMethod="GetList" TypeName="GiftShopServiceImplementDataBase.Implementations.CustomerServiceDB"></asp:ObjectDataSource>
     
     </div>
     </form>

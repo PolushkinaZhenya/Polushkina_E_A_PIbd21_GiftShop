@@ -8,13 +8,15 @@ using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
+using GiftShopServiceImplementDataBase.Implementations;
 using GiftShopServiceImplementList.Implementations;
+using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormSet : System.Web.UI.Page
     {
-        private readonly ISetService service = new SetServiceList();
+        private readonly ISetService service = UnityConfig.Container.Resolve<SetServiceDB>();
 
         private int id;
 
@@ -101,8 +103,8 @@ namespace GiftShopWeb
                     service.UpdElement(new SetBindingModel
                     {
                         Id = id,
-                        SetName = textBoxName.Text,
-                        Price = Convert.ToInt32(textBoxPrice.Text),
+                        SetName = "Введите название",
+                        Price = 0,
                         SetParts = setPartBM
                     });
                 }
@@ -110,7 +112,7 @@ namespace GiftShopWeb
                 {
                     service.AddElement(new SetBindingModel
                     {
-                        SetName = "-0",
+                        SetName = "Введите название",
                         Price = 0,
                         SetParts = setPartBM
                     });

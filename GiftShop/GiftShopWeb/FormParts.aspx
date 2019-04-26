@@ -25,7 +25,7 @@
         </asp:GridView>
         <br />
         <asp:Button ID="ButtonBack" runat="server" Text="Вернуться" OnClick="ButtonBack_Click" />
-        <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" SelectMethod="GetList" TypeName="GiftShopServiceImplementList.Implementations.PartServiceList"></asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" SelectMethod="GetList" TypeName="GiftShopServiceImplementDataBase.Implementations.PartServiceDB"></asp:ObjectDataSource>
     
     </div>
     </form>

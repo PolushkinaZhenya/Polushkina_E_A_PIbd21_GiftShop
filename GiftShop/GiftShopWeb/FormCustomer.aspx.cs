@@ -1,13 +1,10 @@
 ﻿using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using GiftShopServiceImplementList.Implementations;
+using GiftShopServiceImplementDataBase.Implementations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using Unity;
 
 namespace GiftShopWeb
 {
@@ -15,7 +12,7 @@ namespace GiftShopWeb
     {
         public int Id { set { id = value; } }
 
-        private readonly ICustomerService service = new CustomerServiceList();
+        private readonly ICustomerService service = UnityConfig.Container.Resolve<CustomerServiceDB>();
 
         private int id;
 

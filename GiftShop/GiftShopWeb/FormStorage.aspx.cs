@@ -7,7 +7,9 @@ using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
+using GiftShopServiceImplementDataBase.Implementations;
 using GiftShopServiceImplementList.Implementations;
+using Unity;
 
 namespace GiftShopWeb
 {
@@ -15,7 +17,7 @@ namespace GiftShopWeb
     {
         public int Id { set { id = value; } }
 
-        private readonly IStorageService service = new StorageServiceList();
+        private readonly IStorageService service = UnityConfig.Container.Resolve <StorageServiceDB>();
 
         private int id;
 

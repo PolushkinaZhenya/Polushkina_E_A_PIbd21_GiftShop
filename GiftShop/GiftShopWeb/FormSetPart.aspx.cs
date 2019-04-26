@@ -7,13 +7,14 @@ using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using GiftShopServiceImplementList.Implementations;
+using GiftShopServiceImplementDataBase.Implementations;
+using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormSetPart : System.Web.UI.Page
     {
-        private readonly IPartService service = new PartServiceList();
+        private readonly IPartService service = UnityConfig.Container.Resolve<PartServiceDB>();
 
         private SetPartViewModel model;
 

@@ -15,16 +15,16 @@ namespace GiftShopServiceImplementDataBase.Migrations
                         CustomerFIO = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
-
+            
             CreateTable(
                 "dbo.Procedures",
                 c => new
-                {
-                    Id = c.Int(nullable: false, identity: true),
-                    CustomerId = c.Int(nullable: false),
-                    SetId = c.Int(nullable: false),
-                    Count = c.Int(nullable: false),
-                    Sum = c.Decimal(nullable: false, precision: 18, scale:2),
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        CustomerId = c.Int(nullable: false),
+                        SetId = c.Int(nullable: false),
+                        Count = c.Int(nullable: false),
+                        Sum = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Status = c.Int(nullable: false),
                         DateCreate = c.DateTime(nullable: false),
                         DateImplement = c.DateTime(),
