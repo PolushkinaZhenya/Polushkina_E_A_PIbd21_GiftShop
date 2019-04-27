@@ -114,7 +114,7 @@ namespace GiftShopView
                 {
                     if (response.StartsWith("From:"))
                     {
-                        from = response.Substring(6);
+                        from = response.Substring(31);
                     }
                     if (response.StartsWith("Date:"))
                     {
@@ -127,7 +127,7 @@ namespace GiftShopView
                     if (response.StartsWith("Subject:"))
                     {
                         orderSubjectMessage = GetSubject(ref response, ref coding);
-                        orderBodyMessage = GetBody(response, coding);
+                        //orderBodyMessage = GetBody(response, coding);
                     }
                     if (!string.IsNullOrEmpty(messageId) && !string.IsNullOrEmpty(from) &&
                         !string.IsNullOrEmpty(orderSubjectMessage) && !string.IsNullOrEmpty(date))
@@ -148,6 +148,8 @@ namespace GiftShopView
                         orderSubjectMessage = string.Empty;
                         orderBodyMessage = string.Empty;
                     }
+                    from = from.TrimEnd('>');
+                    from = from.TrimStart('<');
                 }
             }
         }
@@ -160,7 +162,7 @@ namespace GiftShopView
         private static string GetSubject(ref string response, ref string coding)
         {
             StringBuilder subject = new StringBuilder(response);
-            while (!response.StartsWith("To:"))
+            while (!response.StartsWith("MIME-Version:"))
             {
                 response = reader.ReadLine();
                 subject.Append(response);
