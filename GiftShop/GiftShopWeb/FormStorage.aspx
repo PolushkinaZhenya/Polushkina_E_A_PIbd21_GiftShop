@@ -14,7 +14,7 @@
             <asp:TextBox ID="textBoxName" runat="server" Width="208px"></asp:TextBox>
             <asp:GridView ID="dataGridView" runat="server" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True">
                 <Columns>
-                    <asp:BoundField DataField="IngredientName" HeaderText="IngredientName" SortExpression="IngredientName" />
+                    <asp:BoundField DataField="PartName" HeaderText="PartName" SortExpression="PartName" />
                     <asp:BoundField DataField="Count" HeaderText="Count" SortExpression="Count" />
                 </Columns>
                 <SelectedRowStyle BackColor="#CCCCCC" />
