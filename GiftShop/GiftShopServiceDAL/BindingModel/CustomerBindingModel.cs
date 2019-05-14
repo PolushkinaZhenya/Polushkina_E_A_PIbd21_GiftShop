@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GiftShopServiceDAL.BindingModel
 {
-    public class СustomerBindingModel
+    public class CustomerBindingModel
     {
         public int Id { get; set; }
         public string CustomerFIO { get; set; }

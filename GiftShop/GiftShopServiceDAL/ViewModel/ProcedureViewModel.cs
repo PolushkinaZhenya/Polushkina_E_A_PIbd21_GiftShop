@@ -12,7 +12,7 @@ namespace GiftShopServiceDAL.ViewModel
 
         public int CustomerId { get; set; }
         [DisplayName("ФИО Клиента")]
-        public string CostomerFIO { get; set; }
+        public string CustomerFIO { get; set; }
 
         public int SetId { get; set; }
         [DisplayName("Продукт")]

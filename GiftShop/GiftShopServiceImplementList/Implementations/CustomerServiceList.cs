@@ -48,7 +48,7 @@ namespace GiftShopServiceImplementList.Implementations
             } throw new Exception("Элемент не найден");
         }
 
-        public void AddElement(СustomerBindingModel model)
+        public void AddElement(CustomerBindingModel model)
         {
             int maxId = 0;
             for (int i = 0; i < source.Customers.Count; ++i)
@@ -62,14 +62,14 @@ namespace GiftShopServiceImplementList.Implementations
                     throw new Exception("Уже есть клиент с таким ФИО");
                 }
             }
-            source.Customers.Add(new Сustomer
+            source.Customers.Add(new Customer
             {
                 Id = maxId + 1,
                 CustomerFIO = model.CustomerFIO
             });
         }
 
-        public void UpdElement(СustomerBindingModel model)
+        public void UpdElement(CustomerBindingModel model)
         {
             int index = -1;
             for (int i = 0; i < source.Customers.Count; ++i)
