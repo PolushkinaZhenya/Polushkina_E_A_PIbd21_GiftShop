@@ -31,7 +31,7 @@ namespace GiftShopView
         {
             var currentContainer = new UnityContainer();
             currentContainer.RegisterType<DbContext,
-                GiftDbContext>(new 
+                GiftWebDbContext>(new 
                 HierarchicalLifetimeManager());
                 currentContainer.RegisterType<ICustomerService, CustomerServiceDB>(new 
                     HierarchicalLifetimeManager());

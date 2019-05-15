@@ -7,9 +7,9 @@ using GiftShopModel;
 using System.Data.Entity;
 namespace GiftShopServiceImplementDataBase
 {
-    public class GiftDbContext : DbContext
+    public class GiftWebDbContext : DbContext
     {
-        public GiftDbContext() : base("AbstractDatabase")
+        public GiftWebDbContext() : base("GiftWebDbContext")
         {             //настройки конфигурации для entity  
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;

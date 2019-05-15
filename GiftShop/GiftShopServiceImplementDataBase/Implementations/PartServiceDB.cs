@@ -11,11 +11,18 @@ namespace GiftShopServiceImplementDataBase.Implementations
 {
     public class PartServiceDB : IPartService
     {
-        private GiftDbContext context;
-        public PartServiceDB(GiftDbContext context)
+        private GiftWebDbContext context;
+
+        public PartServiceDB(GiftWebDbContext context)
         {
             this.context = context;
         }
+
+        public PartServiceDB()
+        {
+            this.context = new GiftWebDbContext();
+        }
+
         public List<PartViewModel> GetList()
         {
             List<PartViewModel> result = context.Parts.Select(rec => new

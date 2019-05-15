@@ -15,11 +15,16 @@ namespace GiftShopServiceImplementDataBase.Implementations
 {
     public class MainServiceDB : IMainService
     {
-        private GiftDbContext context;
+        private GiftWebDbContext context;
 
-        public MainServiceDB(GiftDbContext context)
+        public MainServiceDB(GiftWebDbContext context)
         {
             this.context = context;
+        }
+
+        public MainServiceDB()
+        {
+            this.context = new GiftWebDbContext();
         }
 
         public List<ProcedureViewModel> GetList()

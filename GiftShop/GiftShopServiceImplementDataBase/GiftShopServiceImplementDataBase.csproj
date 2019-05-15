@@ -47,15 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GiftDbContext.cs" />
+    <Compile Include="GiftWebDbContext.cs" />
     <Compile Include="Implementations\CustomerServiceDB.cs" />
     <Compile Include="Implementations\MainServiceDB.cs" />
     <Compile Include="Implementations\PartServiceDB.cs" />
     <Compile Include="Implementations\SetServiceDB.cs" />
     <Compile Include="Implementations\StorageServiceDB.cs" />
-    <Compile Include="Migrations\201903151546241_FirstMigration.cs" />
-    <Compile Include="Migrations\201903151546241_FirstMigration.Designer.cs">
-      <DependentUpon>201903151546241_FirstMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201904261457388_FirstMigration.cs" />
+    <Compile Include="Migrations\201904261457388_FirstMigration.Designer.cs">
+      <DependentUpon>201904261457388_FirstMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,8 +75,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903151546241_FirstMigration.resx">
-      <DependentUpon>201903151546241_FirstMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904261457388_FirstMigration.resx">
+      <DependentUpon>201904261457388_FirstMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

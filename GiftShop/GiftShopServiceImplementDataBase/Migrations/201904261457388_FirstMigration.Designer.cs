@@ -13,7 +13,7 @@ namespace GiftShopServiceImplementDataBase.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201903151546241_FirstMigration"; }
+            get { return "201904261457388_FirstMigration"; }
         }
         
         string IMigrationMetadata.Source
