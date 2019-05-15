@@ -32,21 +32,6 @@ namespace GiftShopWeb
                     PartViewModel view = service.GetElement(id);
                     if (view != null)
                     {
-                        //name = view.PartName;
-                        //service.UpdElement(new PartBindingModel
-                        //{
-                        //    Id = id,
-                        //    PartName = ""
-                        //});
-                        //if (!string.IsNullOrEmpty(name) && string.IsNullOrEmpty(textBoxName.Text))
-                        //{
-                        //    textBoxName.Text = name;
-                        //}
-                        //service.UpdElement(new PartBindingModel
-                        //{
-                        //    Id = id,
-                        //    PartName = name
-                        //});
                         if (!Page.IsPostBack)
                         {
                             textBoxName.Text = view.PartName;
