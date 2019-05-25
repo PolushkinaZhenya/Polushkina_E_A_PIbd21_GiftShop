@@ -43,7 +43,8 @@ namespace GiftShopView
                 HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMainService, MainServiceDB>(new 
                 HierarchicalLifetimeManager());
-
+            currentContainer.RegisterType<IRecordService, RecordServiceDB>(new
+                HierarchicalLifetimeManager());
             return currentContainer;
         }
     }
