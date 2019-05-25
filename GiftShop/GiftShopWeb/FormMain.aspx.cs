@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
 using GiftShopServiceImplementDataBase.Implementations;
-using GiftShopServiceImplementList.Implementations;
 using Unity;
 
 namespace GiftShopWeb

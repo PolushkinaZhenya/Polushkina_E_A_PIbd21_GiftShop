@@ -13,15 +13,22 @@ using Microsoft.Office.Interop.Word;
 using System.Data.Entity;
 using System.Data.Entity.SqlServer;
 using System.IO;
-using System.Linq;
 
 namespace GiftShopServiceImplementDataBase.Implementations
 {
     public class RecordServiceDB : IRecordService
     {
-        private GiftDbContext context;
+        private GiftWebDbContext context;
 
-        public RecordServiceDB(GiftDbContext context) { this.context = context; }
+        public RecordServiceDB(GiftWebDbContext context)
+        {
+            this.context = context;
+        }
+
+        public RecordServiceDB()
+        {
+            this.context = new GiftWebDbContext();
+        }
 
         public void SaveSetPrice(RecordBindingModel model)
         {
@@ -237,25 +244,43 @@ namespace GiftShopServiceImplementDataBase.Implementations
 
         public List<CustomerProceduresModel> GetCustomerProcedures(RecordBindingModel model)
         {
-            return context.Procedures.Include(rec => rec.Customer)
-                .Include(rec => rec.Set)
-                .Where(rec => rec.DateCreate >=
-                model.DateFrom && rec.DateCreate <= model.DateTo)
-                .Select(rec => new CustomerProceduresModel
-                {
-                    CustomerName = rec.Customer.CustomerFIO,
-                    DateCreate = SqlFunctions.DateName("dd", rec.DateCreate)
-                    + " " + SqlFunctions.DateName("mm", rec.DateCreate) + " "
-                    + SqlFunctions.DateName("yyyy", rec.DateCreate),
-                    SetName = rec.Set.SetName,
-                    Count = rec.Count,
-                    Sum = rec.Sum,
-                    Status = rec.Status.ToString()
-                }).ToList();
+            if (model != null)
+            {
+                return context.Procedures.Include(rec => rec.Customer)
+                    .Include(rec => rec.Set)
+                    .Where(rec => rec.DateCreate >=
+                    model.DateFrom && rec.DateCreate <= model.DateTo)
+                    .Select(rec => new CustomerProceduresModel
+                    {
+                        CustomerName = rec.Customer.CustomerFIO,
+                        DateCreate = SqlFunctions.DateName("dd", rec.DateCreate)
+                        + " " + SqlFunctions.DateName("mm", rec.DateCreate) + " "
+                        + SqlFunctions.DateName("yyyy", rec.DateCreate),
+                        SetName = rec.Set.SetName,
+                        Count = rec.Count,
+                        Sum = rec.Sum,
+                        Status = rec.Status.ToString()
+                    }).ToList();
+            }
+            else
+            {
+                return context.Procedures.Include(rec => rec.Customer)
+                    .Include(rec => rec.Set)
+                    .Select(rec => new CustomerProceduresModel
+                    {
+                        CustomerName = rec.Customer.CustomerFIO,
+                        DateCreate = SqlFunctions.DateName("dd", rec.DateCreate)
+                        + " " + SqlFunctions.DateName("mm", rec.DateCreate) + " "
+                        + SqlFunctions.DateName("yyyy", rec.DateCreate),
+                        SetName = rec.Set.SetName,
+                        Count = rec.Count,
+                        Sum = rec.Sum,
+                        Status = rec.Status.ToString()
+                    }).ToList();
+            }
         }
 
         public void SaveCustomerProcedures(RecordBindingModel model)
-
         {
             //из ресрусов получаем шрифт для кирилицы      
             if (!File.Exists("TIMCYR.TTF"))
