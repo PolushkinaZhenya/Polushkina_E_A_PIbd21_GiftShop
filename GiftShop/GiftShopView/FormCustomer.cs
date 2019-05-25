@@ -60,13 +60,16 @@ namespace GiftShopView
             string mail = textBoxMail.Text;
             if (!string.IsNullOrEmpty(mail))
             {
-                if (!Regex.IsMatch(mail, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9az][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$")) { MessageBox.Show("Неверный формат для электронной почты", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (!Regex.IsMatch(mail, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$"))
+                {
+                    MessageBox.Show("Неверный формат для электронной почты", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
             if (id.HasValue)
             {
-                APIClient.PostRequest<CustomerBindingModel, bool>("api/Component/UpdElement",
+                APIClient.PostRequest<CustomerBindingModel, bool>("api/Customer/UpdElement",
                   new CustomerBindingModel
                   {
                       Id = id.Value,
@@ -76,7 +79,7 @@ namespace GiftShopView
             }
             else
             {
-                APIClient.PostRequest<CustomerBindingModel, bool>("api/Component/AddElement",
+                APIClient.PostRequest<CustomerBindingModel, bool>("api/Customer/AddElement",
                     new CustomerBindingModel
                     {
                         CustomerFIO = fio,

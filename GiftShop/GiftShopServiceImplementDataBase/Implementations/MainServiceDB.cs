@@ -173,7 +173,8 @@ namespace GiftShopServiceImplementDataBase.Implementations
             {
                 throw new Exception("Заказ не в статусе \"Готов\"");
             }
-            element.Status = ProcedureStatus.Оплачен; context.SaveChanges();
+            element.Status = ProcedureStatus.Оплачен;
+            context.SaveChanges();
             SendEmail(element.Customer.Mail, "Оповещение по заказам", string.Format("Заказ №{0} от {1} оплачен успешно", element.Id, element.DateCreate.ToShortDateString()));
         }
 
