@@ -10,34 +10,21 @@ using System.Windows.Forms;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using Unity;
 
 namespace GiftShopView
 {
     public partial class FormCreateProcedure : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
-        private readonly ICustomerService serviceC;
-
-        private readonly ISetService serviceP;
-
-        private readonly IMainService serviceM;
-
-        public FormCreateProcedure(ICustomerService serviceC, ISetService serviceP, IMainService serviceM)
+        public FormCreateProcedure()
         {
             InitializeComponent();
-            this.serviceC = serviceC;
-            this.serviceP = serviceP;
-            this.serviceM = serviceM;
         }
 
         private void FormCreateProcedure_Load(object sender, EventArgs e)
         {
             try
             {
-                List<CustomerViewModel> listC = serviceC.GetList();
+                List<CustomerViewModel> listC = APICustomer.GetRequest<List<CustomerViewModel>>("api/Customer/GetList");
                 if (listC != null)
                 {
                     comboBoxCustomer.DisplayMember = "CustomerFIO";
@@ -45,7 +32,7 @@ namespace GiftShopView
                     comboBoxCustomer.DataSource = listC;
                     comboBoxCustomer.SelectedItem = null;
                 }
-                List<SetViewModel> listP = serviceP.GetList();
+                List<SetViewModel> listP = APICustomer.GetRequest<List<SetViewModel>>("api/Set/GetList");
                 if (listP != null)
                 {
                     comboBoxSet.DisplayMember = "SetName";
@@ -67,7 +54,7 @@ namespace GiftShopView
                 try
                 {
                     int id = Convert.ToInt32(comboBoxSet.SelectedValue);
-                    SetViewModel set = serviceP.GetElement(id);
+                    SetViewModel set = APICustomer.GetRequest<SetViewModel>("api/Set/Get/" + id);
                     int count = Convert.ToInt32(textBoxCount.Text);
                     textBoxSum.Text = (count * set.Price).ToString();
                 }
@@ -107,8 +94,9 @@ namespace GiftShopView
             }
             try
             {
-                serviceM.CreateProcedure(new ProcedureBindingModel
-                {
+                APICustomer.PostRequest<ProcedureBindingModel,
+                 bool>("api/Main/CreateProcedure", new ProcedureBindingModel
+                 {
                     CustomerId = Convert.ToInt32(comboBoxCustomer.SelectedValue),
                     SetId = Convert.ToInt32(comboBoxSet.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
@@ -125,7 +113,8 @@ namespace GiftShopView
         }
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel; Close();
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }

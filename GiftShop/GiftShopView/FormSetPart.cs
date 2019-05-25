@@ -9,15 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using Unity;
 
 namespace GiftShopView
 {
     public partial class FormSetPart : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
         public SetPartViewModel Model
         {
             set
@@ -29,21 +25,19 @@ namespace GiftShopView
                 return model;
             }
         }
-        private readonly IPartService service;
-        
+
         private SetPartViewModel model;
 
-        public FormSetPart(IPartService service)
+        public FormSetPart()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormSetPart_Load(object sender, EventArgs e)
         {
             try
             {
-                List<PartViewModel> list = service.GetList();
+                List<PartViewModel> list = APICustomer.GetRequest<List<PartViewModel>>("api/Part/GetList");
                 if (list != null)
                 {
                     comboBoxPart.DisplayMember = "PartName";

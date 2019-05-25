@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftShopView", "GiftShopVie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftShopServiceImplementDataBase", "GiftShopServiceImplementDataBase\GiftShopServiceImplementDataBase.csproj", "{BB8A1B7E-7A43-4510-9A6D-0EAE1C086B64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftShopRestApi", "GiftShopRestApi\GiftShopRestApi.csproj", "{F40251C4-FD4B-4808-A754-880AAE94A8C4}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftShopWeb", "GiftShopWeb\GiftShopWeb.csproj", "{CB603900-6B24-4762-A452-20C2103DAA26}"
 EndProject
 Global
@@ -41,6 +43,10 @@ Global
 		{BB8A1B7E-7A43-4510-9A6D-0EAE1C086B64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB8A1B7E-7A43-4510-9A6D-0EAE1C086B64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB8A1B7E-7A43-4510-9A6D-0EAE1C086B64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F40251C4-FD4B-4808-A754-880AAE94A8C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F40251C4-FD4B-4808-A754-880AAE94A8C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F40251C4-FD4B-4808-A754-880AAE94A8C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F40251C4-FD4B-4808-A754-880AAE94A8C4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CB603900-6B24-4762-A452-20C2103DAA26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB603900-6B24-4762-A452-20C2103DAA26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB603900-6B24-4762-A452-20C2103DAA26}.Release|Any CPU.ActiveCfg = Release|Any CPU

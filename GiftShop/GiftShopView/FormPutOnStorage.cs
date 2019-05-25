@@ -10,33 +10,21 @@ using System.Windows.Forms;
 using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using Unity;
+
 namespace GiftShopView
 {
     public partial class FormPutOnStorage : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
-        private readonly IStorageService serviceS;
-
-        private readonly IPartService serviceC;
-
-        private readonly IMainService serviceM;
-
-        public FormPutOnStorage(IStorageService serviceS, IPartService serviceC, IMainService serviceM)
+        public FormPutOnStorage()
         {
             InitializeComponent();
-            this.serviceS = serviceS;
-            this.serviceC = serviceC;
-            this.serviceM = serviceM;
         }
 
         private void FormPutOnStorage_Load(object sender, EventArgs e)
         {
             try
             {
-                List<PartViewModel> listC = serviceC.GetList();
+                List<PartViewModel> listC = APICustomer.GetRequest<List<PartViewModel>>("api/Part/GetList");
                 if (listC != null)
                 {
                     comboBoxPart.DisplayMember = "PartName";
@@ -44,7 +32,7 @@ namespace GiftShopView
                     comboBoxPart.DataSource = listC;
                     comboBoxPart.SelectedItem = null;
                 }
-                List<StorageViewModel> listS = serviceS.GetList();
+                List<StorageViewModel> listS = APICustomer.GetRequest<List<StorageViewModel>>("api/Storage/GetList");
                 if (listS != null)
                 {
                     comboBoxStorage.DisplayMember = "StorageName";
@@ -53,7 +41,8 @@ namespace GiftShopView
                     comboBoxStorage.SelectedItem = null;
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -65,7 +54,7 @@ namespace GiftShopView
                 MessageBox.Show("Заполните поле Количество", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if 
+            if
                 (comboBoxPart.SelectedValue == null)
             {
                 MessageBox.Show("Выберите компонент", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -78,12 +67,13 @@ namespace GiftShopView
             }
             try
             {
-                serviceM.PutPartOnStorage(new StoragePartBindingModel
-                {
-                    PartId = Convert.ToInt32(comboBoxPart.SelectedValue),
-                    StorageId = Convert.ToInt32(comboBoxStorage.SelectedValue),
-                    Count = Convert.ToInt32(textBoxCount.Text)
-                });
+                APICustomer.PostRequest<StoragePartBindingModel,
+                   bool>("api/Main/PutPartOnStorage", new StoragePartBindingModel
+                   {
+                       PartId = Convert.ToInt32(comboBoxPart.SelectedValue),
+                       StorageId = Convert.ToInt32(comboBoxStorage.SelectedValue),
+                       Count = Convert.ToInt32(textBoxCount.Text)
+                   });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 Close();
