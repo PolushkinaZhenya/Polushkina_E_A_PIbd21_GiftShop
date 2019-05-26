@@ -1,33 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
-using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using GiftShopServiceImplementDataBase.Implementations;
-using GiftShopServiceImplementList.Implementations;
-using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormPutOnStorage : System.Web.UI.Page
     {
-        private readonly IStorageService serviceS = UnityConfig.Container.Resolve<StorageServiceDB>();
-
-        private readonly IPartService serviceI = UnityConfig.Container.Resolve<PartServiceDB>();
-
-        private readonly IMainService serviceM = UnityConfig.Container.Resolve<MainServiceDB>();
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
                 try
                 {
-                    List<PartViewModel> listI = serviceI.GetList();
+                    List<PartViewModel> listI = APIClient.GetRequest<List<PartViewModel>>("api/Part/GetList");
                     if (listI != null)
                     {
                         DropDownListIngredient.DataSource = listI;
@@ -35,7 +22,7 @@ namespace GiftShopWeb
                         DropDownListIngredient.DataTextField = "PartName";
                         DropDownListIngredient.DataValueField = "Id";
                     }
-                    List<StorageViewModel> listS = serviceS.GetList();
+                    List<StorageViewModel> listS = APIClient.GetRequest<List<StorageViewModel>>("api/Storage/GetList");
                     if (listS != null)
                     {
                         DropDownListStorage.DataSource = listS;
@@ -71,7 +58,7 @@ namespace GiftShopWeb
             }
             try
             {
-                serviceM.PutPartOnStorage(new StoragePartBindingModel
+                APIClient.PostRequest<StoragePartBindingModel, bool>("api/Main/PutPartOnStorage", new StoragePartBindingModel
                 {
                     PartId = Convert.ToInt32(DropDownListIngredient.SelectedValue),
                     StorageId = Convert.ToInt32(DropDownListStorage.SelectedValue),

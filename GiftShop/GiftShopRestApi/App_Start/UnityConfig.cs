@@ -1,10 +1,7 @@
 using System;
+
 using Unity;
-using GiftShopServiceDAL.Interfaces;
-using GiftShopServiceImplementDataBase;
-using GiftShopServiceImplementDataBase.Implementations;
-using System.Data.Entity;
-using Unity.Lifetime;
+
 namespace GiftShopRestApi
 {
     /// <summary>
@@ -45,20 +42,6 @@ namespace GiftShopRestApi
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
-            container.RegisterType<DbContext, GiftDbContext>(new 
-                HierarchicalLifetimeManager());
-            container.RegisterType<ICustomerService, CustomerServiceDB>(new
-                HierarchicalLifetimeManager());
-            container.RegisterType<IPartService, PartServiceDB>(new 
-                HierarchicalLifetimeManager());
-            container.RegisterType<ISetService, SetServiceDB>(new
-                HierarchicalLifetimeManager());
-            container.RegisterType<IStorageService, StorageServiceDB>(new 
-                HierarchicalLifetimeManager());
-            container.RegisterType<IMainService, MainServiceDB>(new 
-                HierarchicalLifetimeManager());
-            container.RegisterType<IRecordService, RecordServiceDB>(new 
-                HierarchicalLifetimeManager());
         }
     }
 }

@@ -9,15 +9,11 @@ using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
 using GiftShopServiceImplementDataBase.Implementations;
-using GiftShopServiceImplementList.Implementations;
-using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormSet : System.Web.UI.Page
     {
-        private readonly ISetService service = UnityConfig.Container.Resolve<SetServiceDB>();
-
         private int id;
 
         private List<SetPartViewModel> setParts;
@@ -30,7 +26,7 @@ namespace GiftShopWeb
             {
                 try
                 {
-                    SetViewModel view = service.GetElement(id);
+                    SetViewModel view = APIClient.GetRequest<SetViewModel>("api/Set/Get/" + id);
                     if (view != null)
                     {
                         if (!Page.IsPostBack)
@@ -100,7 +96,7 @@ namespace GiftShopWeb
             {
                 if (Int32.TryParse((string)Session["id"], out id))
                 {
-                    service.UpdElement(new SetBindingModel
+                    APIClient.PostRequest<SetBindingModel, bool>("api/Set/UpdElement", new SetBindingModel
                     {
                         Id = id,
                         SetName = "Введите название",
@@ -110,13 +106,13 @@ namespace GiftShopWeb
                 }
                 else
                 {
-                    service.AddElement(new SetBindingModel
+                    APIClient.PostRequest<SetBindingModel, bool>("api/Set/AddElement", new SetBindingModel
                     {
                         SetName = "Введите название",
                         Price = 0,
                         SetParts = setPartBM
                     });
-                    Session["id"] = service.GetList().Last().Id.ToString();
+                    Session["id"] = APIClient.GetRequest<List<SetViewModel>>("api/Set/GetList").Last().Id.ToString();
                     Session["Change"] = "0";
                 }
             }
@@ -154,7 +150,7 @@ namespace GiftShopWeb
         {
             if (dataGridView.SelectedIndex >= 0)
             {
-                model = service.GetElement(id).SetParts[dataGridView.SelectedIndex];
+                model = APIClient.GetRequest<SetViewModel>("api/Set/Get/" + id).SetParts[dataGridView.SelectedIndex];
                 Session["SEId"] = model.Id;
                 Session["SESetId"] = model.SetId;
                 Session["SEPartId"] = model.PartId;
@@ -219,7 +215,7 @@ namespace GiftShopWeb
                 }
                 if (Int32.TryParse((string)Session["id"], out id))
                 {
-                    service.UpdElement(new SetBindingModel
+                    APIClient.PostRequest<SetBindingModel, bool>("api/Set/UpdElement", new SetBindingModel
                     {
                         Id = id,
                         SetName = textBoxName.Text,
@@ -229,7 +225,7 @@ namespace GiftShopWeb
                 }
                 else
                 {
-                    service.AddElement(new SetBindingModel
+                    APIClient.PostRequest<SetBindingModel, bool>("api/Set/AddElement", new SetBindingModel
                     {
                         SetName = textBoxName.Text,
                         Price = Convert.ToInt32(textBoxPrice.Text),
@@ -249,13 +245,13 @@ namespace GiftShopWeb
 
         protected void ButtonCancel_Click(object sender, EventArgs e)
         {
-            if (service.GetList().Count != 0 && service.GetList().Last().SetName == null)
+            if (APIClient.GetRequest<List<SetViewModel>>("api/Set/GetList").Count != 0 && APIClient.GetRequest<List<SetViewModel>>("api/Set/GetList").Last().SetName == null)
             {
-                service.DelElement(service.GetList().Last().Id);
+                APIClient.PostRequest<SetBindingModel, bool>("api/Set/DelElement", new SetBindingModel { Id = APIClient.GetRequest<List<SetViewModel>>("api/Set/GetList").Last().Id });
             }
             if (!String.Equals(Session["Change"], null))
             {
-                service.DelElement(id);
+                APIClient.PostRequest<SetBindingModel, bool>("api/Set/DelElement", new SetBindingModel { Id = id });
             }
             Session["id"] = null;
             Session["Change"] = null;

@@ -5,25 +5,19 @@ using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
 using GiftShopServiceImplementDataBase.Implementations;
-using Unity;
+
 
 namespace GiftShopWeb
 {
     public partial class FormCreateProcedure : System.Web.UI.Page
     {
-        private readonly ICustomerService serviceC = UnityConfig.Container.Resolve<CustomerServiceDB>();
-
-        private readonly ISetService serviceS = UnityConfig.Container.Resolve<SetServiceDB>();
-
-        private readonly IMainService serviceM = UnityConfig.Container.Resolve<MainServiceDB>();
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
                 try
                 {
-                    List<CustomerViewModel> listC = serviceC.GetList();
+                    List<CustomerViewModel> listC = APIClient.GetRequest<List<CustomerViewModel>>("api/Customer/GetList");
                     if (listC != null)
                     {
                         DropDownListCustomer.DataSource = listC;
@@ -31,7 +25,7 @@ namespace GiftShopWeb
                         DropDownListCustomer.DataTextField = "CustomerFIO";
                         DropDownListCustomer.DataValueField = "Id";
                     }
-                    List<SetViewModel> listP = serviceS.GetList();
+                    List<SetViewModel> listP = APIClient.GetRequest<List<SetViewModel>>("api/Set/GetList");
                     if (listP != null)
                     {
                         DropDownListSet.DataSource = listP;
@@ -57,7 +51,7 @@ namespace GiftShopWeb
                 try
                 {
                     int id = Convert.ToInt32(DropDownListSet.SelectedValue);
-                    SetViewModel product = serviceS.GetElement(id);
+                    SetViewModel product = APIClient.GetRequest<SetViewModel>("api/Set/Get/" + id);
                     int count = Convert.ToInt32(TextBoxCount.Text);
                     TextBoxSum.Text = (count * product.Price).ToString();
                 }
@@ -92,7 +86,7 @@ namespace GiftShopWeb
             }
             try
             {
-                serviceM.CreateProcedure(new ProcedureBindingModel
+                APIClient.PostRequest<ProcedureBindingModel, bool>("api/Main/CreateProcedure", new ProcedureBindingModel
                 {
                     CustomerId = Convert.ToInt32(DropDownListCustomer.SelectedValue),
                     SetId = Convert.ToInt32(DropDownListSet.SelectedValue),

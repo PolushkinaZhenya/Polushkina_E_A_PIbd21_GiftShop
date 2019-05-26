@@ -1,22 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
-using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using GiftShopServiceImplementDataBase.Implementations;
-using GiftShopServiceImplementList.Implementations;
-using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormStorages : System.Web.UI.Page
     {
-        private readonly IStorageService service = UnityConfig.Container.Resolve<StorageServiceDB>();
-
         List<StorageViewModel> list;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -28,7 +19,7 @@ namespace GiftShopWeb
         {
             try
             {
-                list = service.GetList();
+                list = APIClient.GetRequest<List<StorageViewModel>>("api/Storage/GetList");
                 dataGridView.Columns[0].Visible = false;
             }
             catch (Exception ex)
@@ -59,7 +50,7 @@ namespace GiftShopWeb
                 int id = list[dataGridView.SelectedIndex].Id;
                 try
                 {
-                    service.DelElement(id);
+                    APIClient.PostRequest<StorageBindingModel, bool>("api/Storage/DelElement", new StorageBindingModel { Id = id });
                 }
                 catch (Exception ex)
                 {

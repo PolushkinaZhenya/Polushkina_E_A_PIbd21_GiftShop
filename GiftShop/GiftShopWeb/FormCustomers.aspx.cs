@@ -8,15 +8,11 @@ using GiftShopServiceDAL.BindingModel;
 using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
 using GiftShopServiceImplementDataBase.Implementations;
-using GiftShopServiceImplementList.Implementations;
-using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormCustomers : System.Web.UI.Page
     {
-        private readonly ICustomerService service = UnityConfig.Container.Resolve<CustomerServiceDB>();
-
         List<CustomerViewModel> list;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -28,8 +24,11 @@ namespace GiftShopWeb
         {
             try
             {
-                list = service.GetList();
-                dataGridView.Columns[0].Visible = false;
+                list = APIClient.GetRequest<List<CustomerViewModel>>("api/Customer/GetList");
+                if (list != null)
+                {
+                    dataGridView.Columns[0].Visible = false;
+                }
             }
             catch (Exception ex)
             {
@@ -59,7 +58,7 @@ namespace GiftShopWeb
                 int id = list[dataGridView.SelectedIndex].Id;
                 try
                 {
-                    service.DelElement(id);
+                    APIClient.PostRequest<CustomerBindingModel, bool>("api/Customer/DelElement", new CustomerBindingModel { Id = id });
                 }
                 catch (Exception ex)
                 {

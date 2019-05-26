@@ -1,21 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using GiftShopServiceDAL.BindingModel;
-using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using GiftShopServiceImplementDataBase.Implementations;
-using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormSetPart : System.Web.UI.Page
     {
-        private readonly IPartService service = UnityConfig.Container.Resolve<PartServiceDB>();
-
         private SetPartViewModel model;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -24,7 +15,7 @@ namespace GiftShopWeb
             {
                 try
                 {
-                    List<PartViewModel> list = service.GetList();
+                    List<PartViewModel> list = APIClient.GetRequest<List<PartViewModel>>("api/Part/GetList");
                     if (list != null)
                     {
                         DropDownListPart.DataSource = list;

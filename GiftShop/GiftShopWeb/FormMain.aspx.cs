@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using System.Web.UI;
 using GiftShopServiceDAL.BindingModel;
-using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using GiftShopServiceImplementDataBase.Implementations;
-using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormMain : System.Web.UI.Page
     {
-        private readonly IMainService service = UnityConfig.Container.Resolve<MainServiceDB>();
-
         List<ProcedureViewModel> list;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -24,7 +19,7 @@ namespace GiftShopWeb
         {
             try
             {
-                list = service.GetList();
+                list = APIClient.GetRequest<List<ProcedureViewModel>>("api/Main/GetList");
                 dataGridView1.Columns[0].Visible = false;
             }
             catch (Exception ex)
@@ -45,7 +40,10 @@ namespace GiftShopWeb
                 try
                 {
                     int id = list[dataGridView1.SelectedIndex].Id;
-                    service.TakeProcedureInWork(new ProcedureBindingModel { Id = id });
+                    APIClient.PostRequest<ProcedureBindingModel, bool>("api/Main/TakeProcedureInWork", new ProcedureBindingModel
+                    {
+                        Id = id
+                    });
                     LoadData();
                     Server.Transfer("FormMain.aspx");
                 }
@@ -63,7 +61,10 @@ namespace GiftShopWeb
                 int id = list[dataGridView1.SelectedIndex].Id;
                 try
                 {
-                    service.FinishProcedure(new ProcedureBindingModel { Id = id });
+                    APIClient.PostRequest<ProcedureBindingModel, bool>("api/Main/FinishProcedure", new ProcedureBindingModel
+                    {
+                        Id = id
+                    });
                     LoadData();
                     Server.Transfer("FormMain.aspx");
                 }
@@ -81,7 +82,10 @@ namespace GiftShopWeb
                 int id = list[dataGridView1.SelectedIndex].Id;
                 try
                 {
-                    service.PayProcedure(new ProcedureBindingModel { Id = id });
+                    APIClient.PostRequest<ProcedureBindingModel, bool>("api/Main/PayProcedure", new ProcedureBindingModel
+                    {
+                        Id = id
+                    });
                     LoadData();
                     Server.Transfer("FormMain.aspx");
                 }

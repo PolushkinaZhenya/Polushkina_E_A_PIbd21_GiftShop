@@ -1,17 +1,14 @@
 ﻿using System;
 using Microsoft.Reporting.WebForms;
 using System.Web.UI;
-using Unity;
-using GiftShopServiceDAL.Interfaces;
-using GiftShopServiceImplementDataBase.Implementations;
 using GiftShopServiceDAL.BindingModel;
+using GiftShopServiceDAL.ViewModel;
+using System.Collections.Generic;
 
 namespace GiftShopWeb
 {
     public partial class FormCustomerProcedures : System.Web.UI.Page
     {
-        private readonly IRecordService service = UnityConfig.Container.Resolve<RecordServiceDB>();
-
         protected void ButtonMake_Click(object sender, EventArgs e)
         {
             if (Calendar1.SelectedDate >= Calendar2.SelectedDate)
@@ -21,12 +18,20 @@ namespace GiftShopWeb
             }
             try
             {
-                var dataSource = service.GetCustomerProcedures(new RecordBindingModel
+                ReportParameter parameter = new ReportParameter("ReportParameterPeriod",
+                                            "c " + Calendar1.SelectedDate.ToShortDateString() +
+                                            " по " + Calendar2.SelectedDate.ToShortDateString());
+
+
+                ReportViewer1.LocalReport.SetParameters(parameter);
+
+                List<CustomerProceduresModel> response = APIClient.PostRequest<RecordBindingModel,
+                List<CustomerProceduresModel>>("api/Record/GetCustomerProcedures", new RecordBindingModel
                 {
                     DateFrom = Calendar1.SelectedDate,
                     DateTo = Calendar2.SelectedDate
                 });
-                ReportDataSource source = new ReportDataSource("DataSetProcedures", dataSource);
+                ReportDataSource source = new ReportDataSource("DataSetBookings", response);
                 ReportViewer1.LocalReport.DataSources.Add(source);
                 ReportViewer1.DataBind();
             }
@@ -46,7 +51,7 @@ namespace GiftShopWeb
             Response.ContentEncoding = System.Text.Encoding.UTF8;
             try
             {
-                service.SaveCustomerProcedures(new RecordBindingModel
+                APIClient.PostRequest<RecordBindingModel, bool>("api/Record/SaveCustomerProcedures", new RecordBindingModel
                 {
                     FileName = path,
                     DateFrom = Calendar1.SelectedDate,

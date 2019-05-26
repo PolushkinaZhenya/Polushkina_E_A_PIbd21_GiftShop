@@ -3,20 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
-using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using GiftShopServiceImplementDataBase.Implementations;
-using GiftShopServiceImplementList.Implementations;
-using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormSets : System.Web.UI.Page
     {
-        private readonly ISetService service = UnityConfig.Container.Resolve<SetServiceDB>();
-
         List<SetViewModel> list;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -28,8 +21,11 @@ namespace GiftShopWeb
         {
             try
             {
-                list = service.GetList();
-                dataGridView.Columns[0].Visible = false;
+                list = APIClient.GetRequest<List<SetViewModel>>("api/Set/GetList");
+                if (list != null)
+                {
+                    dataGridView.Columns[0].Visible = false;
+                }
             }
             catch (Exception ex)
             {
@@ -59,7 +55,7 @@ namespace GiftShopWeb
                 int id = list[dataGridView.SelectedIndex].Id;
                 try
                 {
-                    service.DelElement(id);
+                    APIClient.PostRequest<SetBindingModel, bool>("api/Set/DelElement", new SetBindingModel { Id = id });
                 }
                 catch (Exception ex)
                 {

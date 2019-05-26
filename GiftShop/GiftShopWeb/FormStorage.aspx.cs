@@ -1,24 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
-using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using GiftShopServiceImplementDataBase.Implementations;
-using GiftShopServiceImplementList.Implementations;
-using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormStorage : System.Web.UI.Page
     {
-        public int Id { set { id = value; } }
-
-        private readonly IStorageService service = UnityConfig.Container.Resolve <StorageServiceDB>();
-
         private int id;
 
         private string name;
@@ -29,13 +17,13 @@ namespace GiftShopWeb
             {
                 try
                 {
-                    StorageViewModel view = service.GetElement(id);
+                    StorageViewModel view = APIClient.GetRequest<StorageViewModel>("api/Storage/Get/" + id);
                     if (view != null)
                     {
                         name = view.StorageName;
                         dataGridView.DataSource = view.StorageParts;
                         dataGridView.DataBind();
-                        service.UpdElement(new StorageBindingModel
+                        APIClient.PostRequest<StorageBindingModel, bool>("api/Storage/UpdElement", new StorageBindingModel
                         {
                             Id = id,
                             StorageName = ""
@@ -44,7 +32,7 @@ namespace GiftShopWeb
                         {
                             textBoxName.Text = name;
                         }
-                        service.UpdElement(new StorageBindingModel
+                        APIClient.PostRequest<StorageBindingModel, bool>("api/Storage/UpdElement", new StorageBindingModel
                         {
                             Id = id,
                             StorageName = name
@@ -69,7 +57,7 @@ namespace GiftShopWeb
             {
                 if (Int32.TryParse((string)Session["id"], out id))
                 {
-                    service.UpdElement(new StorageBindingModel
+                    APIClient.PostRequest<StorageBindingModel, bool>("api/Storage/UpdElement", new StorageBindingModel
                     {
                         Id = id,
                         StorageName = textBoxName.Text
@@ -77,7 +65,7 @@ namespace GiftShopWeb
                 }
                 else
                 {
-                    service.AddElement(new StorageBindingModel
+                    APIClient.PostRequest<StorageBindingModel, bool>("api/Storage/AddElement", new StorageBindingModel
                     {
                         StorageName = textBoxName.Text
                     });

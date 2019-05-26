@@ -1,27 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using GiftShopServiceDAL.BindingModel;
-using GiftShopServiceDAL.Interfaces;
 using GiftShopServiceDAL.ViewModel;
-using GiftShopServiceImplementDataBase.Implementations;
-using GiftShopServiceImplementList.Implementations;
-using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormPart : System.Web.UI.Page
     {
-        public int Id { set { id = value; } }
-
-        private readonly IPartService service = UnityConfig.Container.Resolve<PartServiceDB>();
-
         private int id;
-
-        private string name;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -29,7 +15,7 @@ namespace GiftShopWeb
             {
                 try
                 {
-                    PartViewModel view = service.GetElement(id);
+                    PartViewModel view = APIClient.GetRequest<PartViewModel>("api/Part/Get/" + id);
                     if (view != null)
                     {
                         if (!Page.IsPostBack)
@@ -56,7 +42,7 @@ namespace GiftShopWeb
             {
                 if (Int32.TryParse((string)Session["id"], out id))
                 {
-                    service.UpdElement(new PartBindingModel
+                    APIClient.PostRequest<PartBindingModel, bool>("api/Part/UpdElement", new PartBindingModel
                     {
                         Id = id,
                         PartName = textBoxName.Text
@@ -64,7 +50,7 @@ namespace GiftShopWeb
                 }
                 else
                 {
-                    service.AddElement(new PartBindingModel
+                    APIClient.PostRequest<PartBindingModel, bool>("api/Part/AddElement", new PartBindingModel
                     {
                         PartName = textBoxName.Text
                     });

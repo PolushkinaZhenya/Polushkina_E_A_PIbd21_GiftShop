@@ -1,17 +1,14 @@
 ﻿using GiftShopServiceDAL.BindingModel;
-using GiftShopServiceDAL.Interfaces;
-using GiftShopServiceImplementDataBase.Implementations;
+using GiftShopServiceDAL.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Unity;
 
 namespace GiftShopWeb
 {
     public partial class FormStoragesLoad : System.Web.UI.Page
     {
-        private readonly IRecordService service = UnityConfig.Container.Resolve<RecordServiceDB>();
-
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -23,7 +20,7 @@ namespace GiftShopWeb
                 Table.Rows[0].Cells[1].Text = "Компонент";
                 Table.Rows[0].Cells.Add(new TableCell());
                 Table.Rows[0].Cells[2].Text = "Количество";
-                var dict = service.GetStoragesLoad();
+                var dict = APIClient.GetRequest<List<StoragesLoadViewModel>>("api/Record/GetStoragesLoad");
                 if (dict != null)
                 {
                     int i = 1;
@@ -77,7 +74,7 @@ namespace GiftShopWeb
             Response.ContentEncoding = System.Text.Encoding.UTF8;
             try
             {
-                service.SaveStoragesLoad(new RecordBindingModel
+                APIClient.PostRequest<RecordBindingModel, bool>("api/Record/SaveStoragesLoad", new RecordBindingModel
                 {
                     FileName = path
                 });
