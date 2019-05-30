@@ -49,6 +49,30 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebDesign, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.WebDesign.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
@@ -81,16 +105,32 @@
   <ItemGroup>
     <Content Include="FormCreateProcedure.aspx" />
     <Content Include="FormCustomer.aspx" />
+    <Content Include="FormCustomerProcedures.aspx" />
     <Content Include="FormCustomers.aspx" />
     <Content Include="FormMain.aspx" />
     <Content Include="FormPart.aspx" />
     <Content Include="FormParts.aspx" />
+    <Content Include="FormPrice.aspx" />
     <Content Include="FormPutOnStorage.aspx" />
     <Content Include="FormSet.aspx" />
     <Content Include="FormSetPart.aspx" />
     <Content Include="FormSets.aspx" />
     <Content Include="FormStorage.aspx" />
     <Content Include="FormStorages.aspx" />
+    <Content Include="FormStoragesLoad.aspx" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +148,13 @@
     </Compile>
     <Compile Include="FormCustomer.aspx.designer.cs">
       <DependentUpon>FormCustomer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormCustomerProcedures.aspx.cs">
+      <DependentUpon>FormCustomerProcedures.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormCustomerProcedures.aspx.designer.cs">
+      <DependentUpon>FormCustomerProcedures.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormCustomers.aspx.cs">
       <DependentUpon>FormCustomers.aspx</DependentUpon>
@@ -136,6 +183,13 @@
     </Compile>
     <Compile Include="FormParts.aspx.designer.cs">
       <DependentUpon>FormParts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormPrice.aspx.cs">
+      <DependentUpon>FormPrice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormPrice.aspx.designer.cs">
+      <DependentUpon>FormPrice.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormPutOnStorage.aspx.cs">
       <DependentUpon>FormPutOnStorage.aspx</DependentUpon>
@@ -179,7 +233,15 @@
     <Compile Include="FormStorages.aspx.designer.cs">
       <DependentUpon>FormStorages.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FormStoragesLoad.aspx.cs">
+      <DependentUpon>FormStoragesLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormStoragesLoad.aspx.designer.cs">
+      <DependentUpon>FormStoragesLoad.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -207,6 +269,9 @@
       <Project>{8d93cc97-c05f-4d48-9c26-ba23a00200ce}</Project>
       <Name>GiftShopServiceImplementList</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RecordViewer.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
