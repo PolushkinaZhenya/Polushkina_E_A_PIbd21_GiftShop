@@ -37,7 +37,7 @@ namespace GiftShopView
         {
             try
             {
-                List<PartViewModel> list = APICustomer.GetRequest<List<PartViewModel>>("api/Part/GetList");
+                List<PartViewModel> list = APIClient.GetRequest<List<PartViewModel>>("api/Part/GetList");
                 if (list != null)
                 {
                     comboBoxPart.DisplayMember = "PartName";

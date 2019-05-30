@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Customer.cs" />
+    <Compile Include="MessageInfo.cs" />
     <Compile Include="Part.cs" />
     <Compile Include="Procedure.cs" />
     <Compile Include="ProcedureStatus.cs" />

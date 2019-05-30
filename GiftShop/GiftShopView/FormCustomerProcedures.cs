@@ -38,7 +38,7 @@ namespace GiftShopView
                 recordViewer.LocalReport.SetParameters(parameter);
 
                 List<CustomerProceduresModel> response =
-                    APICustomer.PostRequest<RecordBindingModel,
+                    APIClient.PostRequest<RecordBindingModel,
                     List<CustomerProceduresModel>>("api/Record/GetCustomerProcedures", new RecordBindingModel
                     {
                         DateFrom = dateTimePickerFrom.Value,
@@ -72,7 +72,7 @@ namespace GiftShopView
             {
                 try
                 {
-                    APICustomer.PostRequest<RecordBindingModel,
+                    APIClient.PostRequest<RecordBindingModel,
                         bool>("api/Record/SaveCustomerProcedures", new RecordBindingModel
                         {
                             FileName = sfd.FileName,

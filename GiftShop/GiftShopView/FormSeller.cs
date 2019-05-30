@@ -29,7 +29,7 @@ namespace GiftShopView
             {
                 try
                 {
-                    SellerViewModel seller = APICustomer.GetRequest<SellerViewModel>("api/Seller/Get/" + id.Value);
+                    SellerViewModel seller = APIClient.GetRequest<SellerViewModel>("api/Seller/Get/" + id.Value);
                     textBoxFIO.Text = seller.SellerFIO;
                 }
                 catch (Exception ex)
@@ -49,7 +49,7 @@ namespace GiftShopView
             {
                 if (id.HasValue)
                 {
-                    APICustomer.PostRequest<SellerBindingModel,
+                    APIClient.PostRequest<SellerBindingModel,
                         bool>("api/Seller/UpdElement", new SellerBindingModel
                         {
                             Id = id.Value,
@@ -58,7 +58,7 @@ namespace GiftShopView
                 }
                 else
                 {
-                    APICustomer.PostRequest<SellerBindingModel,
+                    APIClient.PostRequest<SellerBindingModel,
                         bool>("api/Seller/AddElement", new SellerBindingModel
                         {
                             SellerFIO = textBoxFIO.Text

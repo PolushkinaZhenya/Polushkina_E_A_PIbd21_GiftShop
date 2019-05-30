@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 namespace GiftShopView
 {
-    public static class APICustomer
+    public static class APIClient
     {
         private static HttpClient client = new HttpClient();
 
